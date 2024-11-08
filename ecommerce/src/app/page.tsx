@@ -1,12 +1,13 @@
-/** @format */
-
-import Image from 'next/image';
-import NewsLetter from '@/components/Home/NewsLetter';
+import NewsLetter from "@/components/Home/NewsLetter";
+import Hero from "@/components/Home/Hero";
+import Category from "@/components/Home/Category";
 
 export default function Home() {
   return (
-    <div>
+    <>
+      <Hero />
+      <Category />
       <NewsLetter />
-    </div>
+    </>
   );
 }
