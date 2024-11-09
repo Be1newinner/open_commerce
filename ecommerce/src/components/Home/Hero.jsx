@@ -66,7 +66,7 @@ export default function Hero() {
   };
 
   return (
-    <div className="bg-[#115061] relative h-screen overflow-hidden">
+    <div className="bg-[#115061] relative h-[700px] overflow-hidden">
       <Slider {...settings} className="w-[1280px] mx-auto max-xl:w-full mt-32 max-md:mt-10 max-xl:mt-20 max-xl:mx-auto">
         {/* Slide 1 */}
         <div className="flex justify-between items-center">

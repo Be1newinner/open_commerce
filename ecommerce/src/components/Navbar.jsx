@@ -5,7 +5,6 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { LuArrowDownUp } from "react-icons/lu";
 import { IoIosArrowDown, IoMdHeartEmpty } from "react-icons/io";
 import { FaShoppingBag } from "react-icons/fa";
-import { IoIosCall } from "react-icons/io";
 import { FiPhoneCall } from "react-icons/fi";
 import { VscThreeBars } from "react-icons/vsc";
 
@@ -66,7 +65,7 @@ export default function Navbar() {
       <div className="w-[1280px] mx-auto max-xl:w-[90%] max-lg:mx-0 max-md:hidden flex">
         <div className="relative flex gap-10 font-[600] w-[1280px] mx-auto max-xl:w-[90%] items-center">
           {/* Dropdown Trigger */}
-          <h1 className=" cursor-pointer group z-50 relative">
+          <h1 className=" cursor-pointer group z-50  relative">
             <span className="flex items-center justify-between font-semibold text-white bg-blue-800 px-4 py-3 w-[250px]">
               All Categories
               <IoIosArrowDown />

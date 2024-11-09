@@ -87,3 +87,19 @@ body {
     bottom: -60px !important;
   }
 }
+
+
+.bgImg {
+  background-image: url("../assets/1.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+} 
+
+.bgImg2 {
+  background-image: url("../assets/2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+} 
+
