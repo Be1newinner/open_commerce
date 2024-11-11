@@ -1,13 +1,15 @@
 "use client";
 import React from "react";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import Image from "next/image";
 import slider1 from "../../assets/slider-1 (1).png";
 import slider2 from "../../assets/slider-2 (1).png";
 import slider3 from "../../assets/slider-3 (1).png";
-import style from "./CollectionSwiper.module.css";
+// import style from "./CollectionSwiper.module.css";
+import "./CollectionSwiper.css";
+import Slider from "react-slick";
 
-const Slider = dynamic(() => import("react-slick"), { ssr: false });
+// const Slider = dynamic(() => import("react-slick"), { ssr: false });
 
 export default function CollectionSwiper() {
   const settings = {
@@ -24,7 +26,7 @@ export default function CollectionSwiper() {
   };
 
   return (
-    <div className="bg-blue-800 relative h-[600px] w-[1280px] mx-auto overflow-hidden">
+    <div className="bg-blue-800 relative h-[600px] max-w-[1280px] mx-auto overflow-hidden"  id="collection-swiper">
       <Slider
         {...settings}
         className="w-[1280px] mx-auto max-xl:w-full mt-16 max-md:mt-10 max-xl:mt-20 max-xl:mx-auto"
@@ -49,8 +51,8 @@ export default function CollectionSwiper() {
           </div>
         </div>
 
-       {/* Slide 2 */}
-       <div className="flex justify-between items-center">
+        {/* Slide 2 */}
+        <div className="flex justify-between items-center">
           <div className="flex items-center ">
             <div className="w-1/2 max-md:w-[90%] mx-auto ">
               <h1 className="text-gray-300 text-lg font-semibold">
@@ -69,8 +71,8 @@ export default function CollectionSwiper() {
           </div>
         </div>
 
-       {/* Slide 3 */}
-       <div className="flex justify-between items-center">
+        {/* Slide 3 */}
+        <div className="flex justify-between items-center">
           <div className="flex items-center ">
             <div className="w-1/2 max-md:w-[90%] mx-auto ">
               <h1 className="text-gray-300 text-lg font-semibold">
@@ -88,7 +90,6 @@ export default function CollectionSwiper() {
             </div>
           </div>
         </div>
-
       </Slider>
     </div>
   );

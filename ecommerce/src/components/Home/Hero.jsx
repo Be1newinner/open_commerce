@@ -1,13 +1,14 @@
 "use client";
 import React from "react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import slider1 from "../../assets/slider-1.png";
 import slider2 from "../../assets/slider-2.png";
 import slider3 from "../../assets/slider-3.png";
+import Slider from "react-slick";
+import "./Hero.css";
 
-const Slider = dynamic(() => import("react-slick"), { ssr: false });
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 const CustomPrevArrow = ({ onClick }) => (
   <div
     onClick={onClick}
@@ -55,6 +56,7 @@ const CustomNextArrow = ({ onClick }) => (
 export default function Hero() {
   const settings = {
     dots: true,
+    fade: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -66,8 +68,14 @@ export default function Hero() {
   };
 
   return (
-    <div className="bg-[#115061] relative h-[700px] overflow-hidden">
-      <Slider {...settings} className="w-[1280px] mx-auto max-xl:w-full mt-32 max-md:mt-10 max-xl:mt-20 max-xl:mx-auto">
+    <div
+      className="bg-[#115061] relative h-[700px] overflow-hidden"
+      id="hero-section"
+    >
+      <Slider
+        {...settings}
+        className="w-[1280px] mx-auto max-xl:w-full mt-32 max-md:mt-10 max-xl:mt-20 max-xl:mx-auto"
+      >
         {/* Slide 1 */}
         <div className="flex justify-between items-center">
           <div className="flex items-center ">
@@ -103,7 +111,7 @@ export default function Hero() {
                 The best note book collection 2023
               </h1>
               <p className="text-white text-lg py-5">
-                Exclusive offer <span className="text-yellow-400">-10%</span>{" "}
+                Exclusive offer <span className="text-yellow-400">-10%</span>
                 off this week
               </p>
               <button className="bg-white text-black px-4 py-3 font-semibold rounded-lg mt-4 hover:bg-[#115061] hover:text-white border-2 hover:border-white">
@@ -127,7 +135,7 @@ export default function Hero() {
                 The best phone collection 2023
               </h1>
               <p className="text-white text-lg py-5">
-                Exclusive offer <span className="text-yellow-400">-20%</span>{" "}
+                Exclusive offer <span className="text-yellow-400">-20%</span>
                 off this week
               </p>
               <button className="bg-white text-black px-4 py-3 font-semibold rounded-lg mt-4 hover:bg-[#115061] hover:text-white border-2 hover:border-white">

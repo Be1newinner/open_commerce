@@ -1,0 +1,60 @@
+/* Slider */
+
+.slick-dots li button:before {
+  color: #fff !important;
+  font-size: 12px !important;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #fff !important;
+}
+
+.slick-dots li {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 100% !important;
+  margin: 0 5px !important;
+}
+
+.slick-dots {
+  bottom: -20px !important;
+}
+
+.slick-prev,
+.slick-next {
+  width: 50px;
+  height: 50px;
+  z-index: 10;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-size: 60px;
+  color: #115061;
+  border-radius: 100%;
+  border-color: white;
+  border-width: 1px;
+  border-style: solid;
+  /* padding: 10px; */
+  /* background-color: white; */
+}
+
+.slick-prev {
+  left: -100px;
+}
+
+.slick-next {
+  right: -100px;
+}
+
+@media screen and (max-width: 768px) {
+  .slick-dots {
+    bottom: -150px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .slick-dots {
+    bottom: -60px !important;
+  }
+}

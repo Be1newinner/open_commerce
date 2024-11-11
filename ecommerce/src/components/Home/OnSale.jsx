@@ -8,13 +8,20 @@ const OnSale = () => {
     <>
       <div className="flex justify-between w-[1280px] mx-auto  my-7">
         <h1 className="text-3xl font-semibold text-black">On Sale</h1>
-        <h1 className="text-3xl font-semibold text-black">Trending Product</h1>
-        <h1 className="text-3xl font-semibold text-black">Top Rated</h1>
+        {/* <h1 className="text-3xl font-semibold text-black">Trending Product</h1>
+        <h1 className="text-3xl font-semibold text-black">Top Rated</h1> */}
       </div>
-      <div className="flex flex-wrap w-[1280px] mx-auto gap-16">
+      <div className=" flex flex-wrap w-[1280px] mx-auto gap-10">
         {product.map((data, index) => (
-          <div key={index} className="flex w-[30%]">
-            <Image src={data.image} alt="prductimg" />
+          <div
+            key={index}
+            className="group flex w-[30%] max-lg:w-[48%] max-sm:w-full overflow-hidden"
+          >
+            <Image
+              src={data.image}
+              alt="prductimg"
+              className="group-hover:scale-105 duration-500"
+            />
             <div className="">
               <h3 className=" text-slate-500">{data.company}</h3>
               <h1 className="font-semibold ">{data.product}</h1>
