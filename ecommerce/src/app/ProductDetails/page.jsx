@@ -1,12 +1,10 @@
 import React from "react";
-import CustomPaging from "../../components/CustomPaging";
-import SimpleProductPage from "../../components/SimpleProductPage";
+import SingleProduct from "../../components/SingleProduct";
 
 export default function ProductDetails() {
   return (
     <div>
-      {/* <CustomPaging /> */}
-      <SimpleProductPage />
+      <SingleProduct />
     </div>
   );
 }

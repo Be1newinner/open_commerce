@@ -51,7 +51,13 @@ export default function Navbar() {
             <FaRegUserCircle size={36} />
             <div>
               <h5 className="font-semibold">Hello, Guest</h5>
-              <h6>Login / Register</h6>
+
+              <p className="text-gray-500 flex gap-2">
+                <Link href="/login"> Login </Link> /
+                <Link href="/login/register">
+                  <p className="text-gray-500">Register</p>
+                </Link>
+              </p>
             </div>
           </div>
           <div className="flex gap-2">
