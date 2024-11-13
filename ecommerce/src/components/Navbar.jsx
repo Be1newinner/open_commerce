@@ -91,9 +91,31 @@ export default function Navbar() {
             </div>
           </h1>
 
-          {/* Static Links */}
           <h1 className="ml-4 cursor-pointer">Home</h1>
-          <h1 className="ml-4 cursor-pointer">Shop</h1>
+
+          <h1 className=" cursor-pointer group z-50  relative">
+            <span className="flex items-center gap-2 font-semibold py-3">
+              Shop
+              <IoIosArrowDown />
+            </span>
+            <div className="absolute hidden group-hover:block bg-white border shadow-md w-[250px]">
+              <ul className="py-2">
+                <Link href="/product">
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                  Product
+                </li>
+                </Link>
+                <Link href="/product/productDetails">
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                  Product Details
+                </li>
+                </Link>
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                  Cart
+                </li>
+              </ul>
+            </div>
+          </h1>
           <h1 className="ml-4 cursor-pointer">Vendors</h1>
           <h1 className="ml-4 cursor-pointer">Pages</h1>
           <h1 className="ml-4 cursor-pointer">Blog</h1>

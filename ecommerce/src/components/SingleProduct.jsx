@@ -20,6 +20,7 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 import { LuCheckCircle } from "react-icons/lu";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 function SingleProduct() {
   const [product, setProduct] = useState(null);
@@ -29,6 +30,32 @@ function SingleProduct() {
   const [selectedRating, setSelectedRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [isLoggedIn] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState("all");
+
+  const specifications = {
+    general: [
+      { name: "Model", value: "XPS 15 9520" },
+      { name: "Release Date", value: "2024" },
+      { name: "Color", value: "Platinum Silver" },
+      { name: "Material", value: "Aluminum + Carbon Fiber" },
+    ],
+    performance: [
+      { name: "Processor", value: "Intel Core i9-12900HK" },
+      { name: "Graphics", value: "NVIDIA RTX 3050 Ti" },
+      { name: "RAM", value: "32GB DDR5" },
+      { name: "Storage", value: "1TB NVMe SSD" },
+    ],
+    display: [
+      { name: "Screen Size", value: "15.6 inches" },
+      { name: "Resolution", value: "3.5K (3456 x 2160)" },
+      { name: "Panel Type", value: "OLED" },
+      { name: "Refresh Rate", value: "60 Hz" },
+    ],
+  };
+
+  const toggleCategory = (category) => {
+    setExpandedCategory(expandedCategory === category ? "all" : category);
+  };
 
   const reviewStats = {
     averageRating: 3.1,
@@ -86,8 +113,9 @@ function SingleProduct() {
     <div className="min-h-screen bg-gray-50">
       <main className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="flex space-x-4">
-            <div className="flex flex-col space-y-4">
+          <div className="flex flex-col-reverse lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
+            {/* Thumbnails section */}
+            <div className="flex flex-row mt-6 lg:flex-col lg:space-y-4 space-x-4 lg:space-x-0 overflow-auto">
               {images.map((image, index) => (
                 <button
                   key={index}
@@ -99,19 +127,22 @@ function SingleProduct() {
                   <Image
                     src={image}
                     alt={`Thumbnail view ${index + 1}`}
-                    className="w-[100px] h-[80px] object-contain object-center p-2"
+                    className="w-20 h-16 md:w-24 md:h-20 object-contain object-center p-2"
                   />
                 </button>
               ))}
             </div>
-            <div className="w-full h-[600px] bg-white rounded-lg overflow-hidden shadow-lg">
+
+            {/* Main image display section */}
+            <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] bg-white rounded-lg overflow-hidden shadow-lg">
               <Image
                 src={images[activeImage]}
                 alt={`Product view ${activeImage + 1}`}
-                className="w-full h-[600px] object-contain object-center p-4"
+                className="w-full h-full object-contain object-center p-4"
               />
             </div>
           </div>
+
           <div className="space-y-2">
             <span>Shofy</span>
             <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">
@@ -230,26 +261,24 @@ function SingleProduct() {
                   <LuCheckCircle />
                   Order yours before 2.30pm for same day dispatch
                 </p>
-                <div className="mt-5">
-                  <p className="flex items-center justify-between gap-2 text-gray-500 bg-gray-200 p-3">
-                    Guaranteed safe & secure checkout
-                    <div className="flex gap-2 cursor-pointer">
-                      <Image
-                        src={paypal}
-                        alt="paypal"
-                        width={100}
-                        height={50}
-                        className="bg-white p-2"
-                      />
-                      <Image
-                        src={visa}
-                        alt="visa"
-                        width={100}
-                        height={50}
-                        className="bg-white p-2"
-                      />
-                    </div>
-                  </p>
+                <div className="flex flex-wrap mt-4 items-center justify-between gap-2 text-gray-500 bg-gray-200 p-3 ">
+                  <p className="">Guaranteed safe & secure checkout</p>
+                  <div className="flex gap-2 cursor-pointer">
+                    <Image
+                      src={paypal}
+                      alt="paypal"
+                      width={100}
+                      height={50}
+                      className="bg-white p-2"
+                    />
+                    <Image
+                      src={visa}
+                      alt="visa"
+                      width={100}
+                      height={50}
+                      className="bg-white p-2"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -317,18 +346,29 @@ function SingleProduct() {
               </div>
             )}
             {activeTab === "specifications" && (
-              <ul className="list-disc pl-5">
-                <li>Category: {product.category}</li>
-                <li>Material: Premium quality materials</li>
-                <li>Care Instructions: Follow label instructions</li>
-                <li>Origin: Imported</li>
-              </ul>
+              <div className="p-4 max-w-3xl mx-auto">
+                <h2 className="text-2xl font-semibold mb-4">Specifications</h2>
+                <table className="w-full border-collapse border border-gray-200 rounded-lg shadow-md">
+                  <tbody>
+                    {productSpecifications.map(({ spec, detail }) => (
+                      <tr key={spec} className="odd:bg-gray-50 even:bg-white">
+                        <td className="border border-gray-200 p-3 font-semibold text-gray-700 w-1/3">
+                          {spec}
+                        </td>
+                        <td className="border border-gray-200 p-3 text-gray-600">
+                          {detail}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
             {activeTab === "reviews" && (
               <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8">
                   {/* Reviews Statistics */}
-                  <div className="bg-white p-6 rounded-lg border">
+                  <div className="bg-white h-[300px] p-6 rounded-lg border">
                     <h2 className="text-2xl font-bold mb-4">
                       Customer reviews
                     </h2>
@@ -413,7 +453,7 @@ function SingleProduct() {
                         <textarea
                           value={reviewText}
                           onChange={(e) => setReviewText(e.target.value)}
-                          className="w-full min-h-[200px] p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          className="w-full min-h-[200px] p-3 border rounded-lg focus:outline-none focus:ring-[1px] focus:ring-blue-500 focus:border-blue-500"
                           placeholder="Write your review"
                           required
                         />
@@ -448,3 +488,22 @@ function SingleProduct() {
 }
 
 export default SingleProduct;
+
+const productSpecifications = [
+  { spec: "Product Name", detail: "Smartphone XYZ" },
+  { spec: "Brand", detail: "BrandName" },
+  { spec: "Model Number", detail: "XYZ1234" },
+  { spec: "Operating System", detail: "Android 12" },
+  { spec: "Screen Size", detail: "6.5 inches" },
+  { spec: "Resolution", detail: "1080 x 2400 pixels" },
+  { spec: "Battery Capacity", detail: "5000 mAh" },
+  { spec: "Processor", detail: "Octa-Core 2.2 GHz" },
+  { spec: "RAM", detail: "8 GB" },
+  { spec: "Storage", detail: "128 GB" },
+  { spec: "Camera", detail: "64 MP (Rear), 16 MP (Front)" },
+  { spec: "Connectivity", detail: "5G, 4G LTE, Wi-Fi, Bluetooth 5.0" },
+  { spec: "Color Options", detail: "Black, Silver, Blue" },
+  { spec: "Weight", detail: "180 grams" },
+  { spec: "Dimensions", detail: "160 x 75 x 8 mm" },
+  { spec: "Warranty", detail: "1-year manufacturer warranty" },
+];
