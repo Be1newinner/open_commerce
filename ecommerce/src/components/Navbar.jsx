@@ -101,14 +101,14 @@ export default function Navbar() {
             <div className="absolute hidden group-hover:block bg-white border shadow-md w-[250px]">
               <ul className="py-2">
                 <Link href="/product">
-                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                  Product
-                </li>
+                  <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                    Product
+                  </li>
                 </Link>
                 <Link href="/product/productDetails">
-                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                  Product Details
-                </li>
+                  <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                    Product Details
+                  </li>
                 </Link>
                 <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
                   Cart
@@ -116,7 +116,9 @@ export default function Navbar() {
               </ul>
             </div>
           </h1>
-          <h1 className="ml-4 cursor-pointer">Vendors</h1>
+          <Link href="/vender">
+            <h1 className="ml-4 cursor-pointer">Vendors</h1>
+          </Link>
           <h1 className="ml-4 cursor-pointer">Pages</h1>
           <h1 className="ml-4 cursor-pointer">Blog</h1>
         </div>
