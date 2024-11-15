@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
-  id: {
+  sku: {
     type: Number,
     required: true,
     unique: true,
@@ -23,8 +23,6 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
 });
-
-
 
 const product = mongoose.model("products", productSchema);
 
