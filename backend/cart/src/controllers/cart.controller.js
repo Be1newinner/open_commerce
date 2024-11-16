@@ -2,12 +2,11 @@ import { User, Product, Cart } from "../models/index.js";
 
 async function createCart(req, res) {
     const {
-        userId,
         items
     } = req.body
 
     try {
-        const userExists = await User.findById(userId)
+        const userExists = await User.findById(req.user._id)
 
         if (!userExists) {
             return res.status(404).json({
@@ -29,7 +28,7 @@ async function createCart(req, res) {
         })
 
         const cart = await Cart.create({
-            userId,
+            userId: req.user._id,
             items
         })
 
@@ -55,19 +54,8 @@ async function createCart(req, res) {
 }
 
 async function getCart(req, res) {
-    const { userId } = req.body;
-
     try {
-        const userExists = await User.findById(userId)
-
-        if (!userExists) {
-            return res.status(404).json({
-                success: false,
-                message: 'User not found'
-            })
-        }
-
-        const cart = await Cart.findOne({ userId });
+        const cart = await Cart.findOne({ userId: req.user._id });
 
         if (!cart) {
             return res.status(404).json({
@@ -92,18 +80,9 @@ async function getCart(req, res) {
 
 async function updateCart(req, res) {
     const { id } = req.params;
-    const { userId, items } = req.body;
+    const { items } = req.body;
 
     try {
-        const userExists = await User.findById(userId)
-
-        if (!userExists) {
-            return res.status(404).json({
-                success: false,
-                message: 'User not found'
-            })
-        }
-
         const cartExists = await Cart.findById(id)
 
         if (!cartExists) {
@@ -114,7 +93,7 @@ async function updateCart(req, res) {
         }
 
         const cart = await Cart.findByIdAndUpdate(id, {
-            userId,
+            userId: req.user._id,
             items
         }, { new: true })
 
@@ -124,7 +103,7 @@ async function updateCart(req, res) {
                 message: 'Error in updating cart'
             })
         }
-        
+
         return res.status(200).json({
             success: true,
             message: 'Cart updated successfully',
@@ -140,11 +119,10 @@ async function updateCart(req, res) {
 }
 
 async function deleteCart(req, res) {
-    const { userId } = req.body
     const { id } = req.params;
 
     try {
-        const userExists = await User.findById(userId)
+        const userExists = await User.findById(req.user._id)
 
         if (!userExists) {
             return res.status(404).json({

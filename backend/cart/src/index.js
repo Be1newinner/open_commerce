@@ -35,6 +35,6 @@ app.get('/', (_, res) => {
 })
 
 // Server
-app.listen(process.env.PORT, () => {
-    console.log(`⚙️  Server is listening on port ${process.env.PORT}`)
+app.listen(process.env.PORT || 3004, () => {
+    console.log(`⚙️  Server is listening on port ${process.env.PORT || 3004}`)
 })
