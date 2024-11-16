@@ -10,6 +10,6 @@ app.use(express.json());
 connectDB();
 app.use("/api", routes);
 
-app.listen(PORT, () => {
-  console.log("Server started on port", PORT);
+app.listen(process.env.PORT || PORT, () => {
+  console.log("Server started on port", process.env.PORT || PORT);
 });
