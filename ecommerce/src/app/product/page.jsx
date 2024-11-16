@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Category2 from "../../components/Category2";
 import Image from "next/image";
 import image1 from "@/assets/1.png";
@@ -12,9 +12,20 @@ import SidebarFilter from "../../components/product/SidebarFilter";
 import { IoGridOutline } from "react-icons/io5";
 import { CiGrid2H } from "react-icons/ci";
 import ProductListGrid from "../../components/product/productListGrid";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { loadAllProductRequest } from "@/redux/reducers/productReducer";
 
 export default function ProductList() {
   const [grid, setGrid] = useState(true);
+
+  const productData = useSelector((state) => state.product.data);
+  const products = productData;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadAllProductRequest());
+  }, [dispatch]);
 
   const renderStars = (rating) => {
     const stars = [];
@@ -129,51 +140,53 @@ export default function ProductList() {
         <section className="max-w-5xl max-xl:mx-auto max-xl:px-4 ">
           {grid ? (
             products.map((product) => (
-              <div className=" mb-4 bg-white shadow-lg rounded-lg overflow-hidden">
-                <div className="p-6">
-                  <div className="flex flex-col md:flex-row gap-6">
-                    <div className="w-full md:w-1/3">
-                      <div className="aspect-square relative bg-gray-50 rounded-lg overflow-hidden">
-                        <Image
-                          src={product.image}
-                          alt="Product Image"
-                          className="object-contain w-full h-full p-4"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="w-full md:w-2/3">
-                      <div className="text-sm text-gray-600 mb-2">
-                        {product.store}
+              <Link key={product.sku} href={`/product/${product.sku}`}>
+                <div className=" mb-4 bg-white shadow-lg rounded-lg overflow-hidden">
+                  <div className="p-6">
+                    <div className="flex flex-col md:flex-row gap-6">
+                      <div className="w-full md:w-1/3">
+                        <div className="aspect-square relative bg-gray-50 rounded-lg overflow-hidden">
+                          <Image
+                            src={product.image}
+                            alt="Product Image"
+                            className="object-contain w-full h-full p-4"
+                          />
+                        </div>
                       </div>
 
-                      <h1 className="text-xl font-semibold text-gray-900 mb-2">
-                        {product.name}
-                      </h1>
+                      <div className="w-full md:w-2/3">
+                        <div className="text-sm text-gray-600 mb-2">
+                          {product.store}
+                        </div>
 
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="flex">{renderStars(3.5)}</div>
-                        <span className="text-sm text-gray-600">
-                          ({product.reviews} reviews)
-                        </span>
+                        <h1 className="text-xl font-semibold text-gray-900 mb-2">
+                          {product.name}
+                        </h1>
+
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="flex">{renderStars(3.5)}</div>
+                          <span className="text-sm text-gray-600">
+                            ({product.reviews} reviews)
+                          </span>
+                        </div>
+
+                        <div className="text-xl font-bold text-blue-600 mb-4">
+                          ${product.price}.00
+                        </div>
+
+                        <p className="text-gray-700 mb-6">
+                          {product.description}
+                        </p>
+
+                        {/* Add to Cart Button */}
+                        <button className="bg-gray-900 text-white hover:bg-gray-800 px-6 py-2 rounded">
+                          Add To Cart
+                        </button>
                       </div>
-
-                      <div className="text-xl font-bold text-blue-600 mb-4">
-                        ${product.price}.00
-                      </div>
-
-                      <p className="text-gray-700 mb-6">
-                        {product.description}
-                      </p>
-
-                      {/* Add to Cart Button */}
-                      <button className="bg-gray-900 text-white hover:bg-gray-800 px-6 py-2 rounded">
-                        Add To Cart
-                      </button>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))
           ) : (
             <ProductListGrid />

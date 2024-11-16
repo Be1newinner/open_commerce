@@ -87,7 +87,11 @@ const deleteProduct = async (req, res) => {
 module.exports = {
   createProduct,
   getAllProducts,
+<<<<<<< Updated upstream
+=======
+  // getProductById,
+>>>>>>> Stashed changes
   getProductBySku,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 };

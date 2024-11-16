@@ -1,12 +1,25 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import image1 from "../../assets/1.png";
 import image2 from "../../assets/2.png";
 import image3 from "../../assets/3.png";
 import image4 from "../../assets/4.png";
 import { IoCartOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { loadAllProductRequest } from "@/redux/reducers/productReducer";
 
 export default function TrendingProductCart() {
+  const ProductData = useSelector((state) => state.product.data);
+  console.log("data si => ", ProductData);
+  const products = ProductData.slice(0, 8);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadAllProductRequest());
+  }, [dispatch]);
+
+
   return (
     <>
       {products.map((product) => (
@@ -23,7 +36,7 @@ export default function TrendingProductCart() {
 
           <div className="p-2 border-t-2 top-1 border-gray-300">
             <span className="text-gray-500 text-xs ">Roberts Store</span>
-            <h1 className="text-xl font-semibold line-clamp-1">Asus Rog</h1>
+            <h1 className="text-xl font-semibold line-clamp-1">{product.name}</h1>
             <div className="flex">
               {Array.from({ length: 5 }).map((_, index) => (
                 <span
@@ -36,7 +49,7 @@ export default function TrendingProductCart() {
                 </span>
               ))}
             </div>
-            <span className="text-xl font-semibold text-blue-800">$999.00</span>
+            <span className="text-xl font-semibold text-blue-800">${product.price}</span>
           </div>
         </section>
       ))}

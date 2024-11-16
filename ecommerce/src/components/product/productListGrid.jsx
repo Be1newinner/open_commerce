@@ -1,12 +1,18 @@
 import Image from "next/image";
-import React from "react";
-import image1 from "../../assets/1.png";
-import image2 from "../../assets/2.png";
-import image3 from "../../assets/3.png";
-import image4 from "../../assets/4.png";
+import React, { useEffect } from "react";
 import { IoCartOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { loadAllProductRequest } from "@/redux/reducers/productReducer";
 
 export default function ProductListGrid() {
+  const ProductData = useSelector((state) => state.product.data);
+  const products = ProductData;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadAllProductRequest());
+  }, [dispatch]);
+
   return (
     <div className="flex flex-wrap max-w-5xl max-md:w-full mb-10 mx-auto gap-7 ">
       {products.map((product) => (
@@ -23,7 +29,7 @@ export default function ProductListGrid() {
 
           <div className="p-2 border-t-2 top-1 border-gray-300">
             <span className="text-gray-500 text-xs ">Roberts Store</span>
-            <h1 className="text-xl font-semibold line-clamp-1">Asus Rog</h1>
+            <h1 className="text-xl font-semibold line-clamp-1">{product.name}</h1>
             <div className="flex">
               {Array.from({ length: 5 }).map((_, index) => (
                 <span
@@ -36,63 +42,10 @@ export default function ProductListGrid() {
                 </span>
               ))}
             </div>
-            <span className="text-xl font-semibold text-blue-800">$999.00</span>
+            <span className="text-xl font-semibold text-blue-800">${product.price}</span>
           </div>
         </section>
       ))}
-
-      
     </div>
   );
 }
-
-const products = [
-  {
-    name: "Asus Rog ",
-    img: image1,
-    price: "$999.00",
-    rating: 4,
-  },
-  {
-    name: "Asus Rog",
-    img: image2,
-    price: "$999.00",
-    rating: 4,
-  },
-  {
-    name: "Asus Rog",
-    img: image3,
-    price: "$999.00",
-    rating: 5,
-  },
-  {
-    name: "Asus Rog",
-    img: image4,
-    price: "$999.00",
-    rating: 2,
-  },
-  {
-    name: "Asus Rog",
-    img: image1,
-    price: "$999.00",
-    rating: 4,
-  },
-  {
-    name: "Asus Rog",
-    img: image2,
-    price: "$999.00",
-    rating: 4,
-  },
-  {
-    name: "Asus Rog",
-    img: image3,
-    price: "$999.00",
-    rating: 5,
-  },
-  {
-    name: "Asus Rog",
-    img: image4,
-    price: "$999.00",
-    rating: 2,
-  },
-];

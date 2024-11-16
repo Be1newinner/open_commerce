@@ -7,13 +7,13 @@ export default function TrendingProducts() {
 
   const handleActive = (item) => {
     setActive(item);
-  };
+  };  
 
   return (
     <section className="w-[1280px] mx-auto  max-xl:w-[90%] max-sm:justify-center max-xl:justify-start max-xl:gap-4 flex flex-wrap justify-between items-center py-10">
       <div className="flex flex-wrap justify-between w-full items-center">
         <h1 className="text-4xl font-bold text-blue-800 ">
-          Trending <span className="text-black">Products</span>{" "}
+          Trending <span className="text-black">Products</span>
         </h1>
         <ul className="flex flex-wrap max-lg:mt-10 gap-10 font-semibold text-xl text-gray-800">
           {["All", "Featured", "On Sale", "Trending", "Top Rated"].map(

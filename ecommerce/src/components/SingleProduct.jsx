@@ -21,6 +21,8 @@ import {
 } from "react-icons/fa";
 import { LuCheckCircle } from "react-icons/lu";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 function SingleProduct() {
   const [product, setProduct] = useState(null);
