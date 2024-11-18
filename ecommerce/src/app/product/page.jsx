@@ -3,10 +3,6 @@ import React, { useEffect, useState } from "react";
 import Category2 from "../../components/Category2";
 import Image from "next/image";
 import image1 from "@/assets/1.png";
-import image2 from "@/assets/2.png";
-import image3 from "@/assets/3.png";
-import image4 from "@/assets/4.png";
-import image5 from "@/assets/5.png";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import SidebarFilter from "../../components/product/SidebarFilter";
 import { IoGridOutline } from "react-icons/io5";
@@ -145,11 +141,12 @@ export default function ProductList() {
                   <div className="p-6">
                     <div className="flex flex-col md:flex-row gap-6">
                       <div className="w-full md:w-1/3">
-                        <div className="aspect-square relative bg-gray-50 rounded-lg overflow-hidden">
+                        <div className="aspect-square justify-center flex items-center relative bg-gray-50 rounded-lg overflow-hidden">
                           <Image
-                            src={product.image}
+                            src={image1}
                             alt="Product Image"
-                            className="object-contain w-full h-full p-4"
+                            width={200}
+                            height={200}
                           />
                         </div>
                       </div>
@@ -197,115 +194,115 @@ export default function ProductList() {
   );
 }
 
-const products = [
-  {
-    id: 1,
-    store: "Robert's Store",
-    name: "ASUS ROG Swift PG279QM 27-Inch Gaming Monitor",
-    rating: 3.5,
-    reviews: 9,
-    price: 1175.0,
-    description:
-      "We can provide exceptional noise isolation and the best all-day comfort by mixing firm foam for the outer with soft foam for the interior of the ear cushions.",
-    image: image1,
-  },
-  {
-    id: 2,
-    store: "Tech Haven",
-    name: "Sony WH-1000XM4 Wireless Noise-Canceling Headphones",
-    rating: 4.8,
-    reviews: 1256,
-    price: 348.0,
-    description:
-      "Industry-leading noise canceling with Dual Noise Sensor technology and exceptional sound quality with Edge-AI.",
-    image: image2,
-  },
-  {
-    id: 3,
-    store: "Gaming Paradise",
-    name: "Logitech G Pro X Mechanical Gaming Keyboard",
-    rating: 4.2,
-    reviews: 487,
-    price: 129.99,
-    description:
-      "Tournament-ready pro-grade mechanical gaming keyboard with swappable switches and RGB lighting.",
-    image: image3,
-  },
-  {
-    id: 4,
-    store: "Elite Electronics",
-    name: 'Samsung 49" Odyssey G9 Gaming Monitor',
-    rating: 4.6,
-    reviews: 325,
-    price: 1299.99,
-    description:
-      "49-inch QLED gaming monitor with Dual QHD resolution and 240Hz refresh rate for immersive gaming.",
-    image: image4,
-  },
-  {
-    id: 5,
-    store: "AudioPhile",
-    name: "Bose QuietComfort 35 II Wireless Headphones",
-    rating: 4.7,
-    reviews: 2891,
-    price: 299.0,
-    description:
-      "World-class noise cancellation headphones with balanced audio performance at any volume.",
-    image: image5,
-  },
-  {
-    id: 6,
-    store: "PC Master",
-    name: "NVIDIA GeForce RTX 4080 Graphics Card",
-    rating: 4.9,
-    reviews: 156,
-    price: 1199.99,
-    description:
-      "Next-gen ray tracing performance with DLSS 3.0 for incredible gaming experiences.",
-    image: image1,
-  },
-  {
-    id: 7,
-    store: "Smart Home Hub",
-    name: "Amazon Echo Studio Smart Speaker",
-    rating: 4.4,
-    reviews: 892,
-    price: 199.99,
-    description:
-      "High-fidelity smart speaker with 3D audio and Alexa built-in for immersive sound.",
-    image: image2,
-  },
-  {
-    id: 8,
-    store: "Mobile Zone",
-    name: "iPhone 15 Pro Max - 256GB",
-    rating: 4.8,
-    reviews: 1543,
-    price: 1199.0,
-    description:
-      "Latest Pro iPhone featuring A17 Pro chip, titanium design, and advanced camera system.",
-    image: image3,
-  },
-  {
-    id: 9,
-    store: "Gadget World",
-    name: "DJI Mini 3 Pro Drone",
-    rating: 4.5,
-    reviews: 367,
-    price: 759.0,
-    description:
-      "Lightweight sub-249g drone with 4K video, obstacle sensing, and extended flight time.",
-    image: image4,
-  },
-  {
-    id: 10,
-    store: "Computer Hub",
-    name: 'MacBook Pro 16" M3 Max',
-    rating: 4.9,
-    reviews: 428,
-    price: 2499.0,
-    description:
-      "Professional laptop with M3 Max chip, up to 128GB unified memory, and stunning Liquid Retina XDR display.",
-    image: image5,
-  },
-];
+// const products = [
+//   {
+//     id: 1,
+//     store: "Robert's Store",
+//     name: "ASUS ROG Swift PG279QM 27-Inch Gaming Monitor",
+//     rating: 3.5,
+//     reviews: 9,
+//     price: 1175.0,
+//     description:
+//       "We can provide exceptional noise isolation and the best all-day comfort by mixing firm foam for the outer with soft foam for the interior of the ear cushions.",
+//     image: image1,
+//   },
+//   {
+//     id: 2,
+//     store: "Tech Haven",
+//     name: "Sony WH-1000XM4 Wireless Noise-Canceling Headphones",
+//     rating: 4.8,
+//     reviews: 1256,
+//     price: 348.0,
+//     description:
+//       "Industry-leading noise canceling with Dual Noise Sensor technology and exceptional sound quality with Edge-AI.",
+//     image: image2,
+//   },
+//   {
+//     id: 3,
+//     store: "Gaming Paradise",
+//     name: "Logitech G Pro X Mechanical Gaming Keyboard",
+//     rating: 4.2,
+//     reviews: 487,
+//     price: 129.99,
+//     description:
+//       "Tournament-ready pro-grade mechanical gaming keyboard with swappable switches and RGB lighting.",
+//     image: image3,
+//   },
+//   {
+//     id: 4,
+//     store: "Elite Electronics",
+//     name: 'Samsung 49" Odyssey G9 Gaming Monitor',
+//     rating: 4.6,
+//     reviews: 325,
+//     price: 1299.99,
+//     description:
+//       "49-inch QLED gaming monitor with Dual QHD resolution and 240Hz refresh rate for immersive gaming.",
+//     image: image4,
+//   },
+//   {
+//     id: 5,
+//     store: "AudioPhile",
+//     name: "Bose QuietComfort 35 II Wireless Headphones",
+//     rating: 4.7,
+//     reviews: 2891,
+//     price: 299.0,
+//     description:
+//       "World-class noise cancellation headphones with balanced audio performance at any volume.",
+//     image: image5,
+//   },
+//   {
+//     id: 6,
+//     store: "PC Master",
+//     name: "NVIDIA GeForce RTX 4080 Graphics Card",
+//     rating: 4.9,
+//     reviews: 156,
+//     price: 1199.99,
+//     description:
+//       "Next-gen ray tracing performance with DLSS 3.0 for incredible gaming experiences.",
+//     image: image1,
+//   },
+//   {
+//     id: 7,
+//     store: "Smart Home Hub",
+//     name: "Amazon Echo Studio Smart Speaker",
+//     rating: 4.4,
+//     reviews: 892,
+//     price: 199.99,
+//     description:
+//       "High-fidelity smart speaker with 3D audio and Alexa built-in for immersive sound.",
+//     image: image2,
+//   },
+//   {
+//     id: 8,
+//     store: "Mobile Zone",
+//     name: "iPhone 15 Pro Max - 256GB",
+//     rating: 4.8,
+//     reviews: 1543,
+//     price: 1199.0,
+//     description:
+//       "Latest Pro iPhone featuring A17 Pro chip, titanium design, and advanced camera system.",
+//     image: image3,
+//   },
+//   {
+//     id: 9,
+//     store: "Gadget World",
+//     name: "DJI Mini 3 Pro Drone",
+//     rating: 4.5,
+//     reviews: 367,
+//     price: 759.0,
+//     description:
+//       "Lightweight sub-249g drone with 4K video, obstacle sensing, and extended flight time.",
+//     image: image4,
+//   },
+//   {
+//     id: 10,
+//     store: "Computer Hub",
+//     name: 'MacBook Pro 16" M3 Max',
+//     rating: 4.9,
+//     reviews: 428,
+//     price: 2499.0,
+//     description:
+//       "Professional laptop with M3 Max chip, up to 128GB unified memory, and stunning Liquid Retina XDR display.",
+//     image: image5,
+//   },
+// ];

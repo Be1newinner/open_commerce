@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import assets from "../../assets/product.jpg";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { loadAllProductRequest } from "@/redux/reducers/productReducer";
 
 const OnSale = () => {
+  const productData = useSelector((state) => state.product.data);
+  const product = productData.slice(0, 9);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadAllProductRequest());
+  }, [dispatch]);
+
   return (
     <>
       <div className="flex justify-between w-[1280px] mx-auto  my-7">
@@ -23,8 +33,8 @@ const OnSale = () => {
               className="group-hover:scale-105 duration-500"
             />
             <div className="">
-              <h3 className=" text-slate-500">{data.company}</h3>
-              <h1 className="font-semibold ">{data.product}</h1>
+              <h3 className=" text-slate-500">shofy</h3>
+              <h1 className="font-semibold ">{data.name}</h1>
               <div className="flex gap-2 ">
                 <FaStar className="mt-1" color="orange" />
                 <span>(7 reviews)</span>

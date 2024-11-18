@@ -1,4 +1,4 @@
-import { RiDeleteBin5Line } from "react-icons/ri";
+"use client";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import image1 from "@/assets/1.png";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Cart() {
   return (
-    <div className="max-w-7xl mt-10 mx-auto justify-between  max-xl:w-[90%]">
+    <div className="max-w-7xl my-20 mx-auto justify-between  max-xl:w-[90%]">
       <div className="flex gap-10 max-xl:flex-wrap max-md:w-full max-md:h-full max-md:p-0 max-md:flex-wrap min-md:w-4/5 ">
         <div className="w-4/6 max-md:w-full lg:w-full md:w-full">
           <div className=" flex justify-between  max-md:hidden p-4 bg-gray-200 ">
@@ -127,13 +127,13 @@ export default function Cart() {
             <p className="text-sm mt-2">(Shipping fees not included)</p>
           </div>
 
-          <Link href="#">
+          <Link href="/checkout">
             <button className="bg-black text-white w-full h-12 mt-4 hover:bg-blue-700">
               Proceed to Checkout
             </button>
           </Link>
           <Link
-            href="#"
+            href="/"
             className="flex justify-center hover:text-blue-700 mt-2"
           >
             Continue Shopping

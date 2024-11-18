@@ -1,4 +1,27 @@
-const Product = require("../models/useModels");
+const { Product } = require("../models/useModels");
+const multer = require("multer");
+
+const upload = multer({
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB
+  },
+  storage: multer.memoryStorage(),
+});
+
+const uploadImage = async (req, res) => {
+  try {
+    const mediaInstance = new Media({
+      filename: req.file.originalname,
+      mediaType: req.file.mimetype,
+      image: req.file.buffer,
+    });
+    await mediaInstance.save();
+    res.status(201).json({ message: "Image uploaded successfully" });
+    return mediaInstance;
+  } catch (error) {
+    res.status(400).json({ message: "failed to upload image" });
+  }
+};
 
 const createProduct = async (req, res) => {
   try {
@@ -8,6 +31,7 @@ const createProduct = async (req, res) => {
       description: req.body.description,
       price: req.body.price,
       stock: req.body.stock,
+      image: req.file.buffer,
     });
     await product.save();
     res.status(201).json(product);
@@ -60,6 +84,7 @@ const updateProduct = async (req, res) => {
         description: req.body.description,
         price: req.body.price,
         stock: req.body.stock,
+        image: req.file.buffer,
       },
       { new: true }
     );
@@ -87,11 +112,9 @@ const deleteProduct = async (req, res) => {
 module.exports = {
   createProduct,
   getAllProducts,
-<<<<<<< Updated upstream
-=======
-  // getProductById,
->>>>>>> Stashed changes
   getProductBySku,
   updateProduct,
   deleteProduct,
+  uploadImage,
+  upload,
 };

@@ -13,51 +13,21 @@ import visa from "@/assets/visa.png";
 import productImg from "@/assets/product-details-desc-1.jpg";
 import {
   FaFacebook,
-  FaInstagram,
   FaLinkedin,
   FaPinterest,
   FaStar,
   FaTwitter,
 } from "react-icons/fa";
 import { LuCheckCircle } from "react-icons/lu";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { loadCartRequest } from "@/redux/reducers/cartReducer";
 
-function SingleProduct() {
-  const [product, setProduct] = useState(null);
+function SingleProduct({ product }) {
   const [activeTab, setActiveTab] = useState("description");
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
-  const [isLoggedIn] = useState(false);
-  const [expandedCategory, setExpandedCategory] = useState("all");
-
-  const specifications = {
-    general: [
-      { name: "Model", value: "XPS 15 9520" },
-      { name: "Release Date", value: "2024" },
-      { name: "Color", value: "Platinum Silver" },
-      { name: "Material", value: "Aluminum + Carbon Fiber" },
-    ],
-    performance: [
-      { name: "Processor", value: "Intel Core i9-12900HK" },
-      { name: "Graphics", value: "NVIDIA RTX 3050 Ti" },
-      { name: "RAM", value: "32GB DDR5" },
-      { name: "Storage", value: "1TB NVMe SSD" },
-    ],
-    display: [
-      { name: "Screen Size", value: "15.6 inches" },
-      { name: "Resolution", value: "3.5K (3456 x 2160)" },
-      { name: "Panel Type", value: "OLED" },
-      { name: "Refresh Rate", value: "60 Hz" },
-    ],
-  };
-
-  const toggleCategory = (category) => {
-    setExpandedCategory(expandedCategory === category ? "all" : category);
-  };
 
   const reviewStats = {
     averageRating: 3.1,
@@ -110,6 +80,21 @@ function SingleProduct() {
       </div>
     );
   }
+
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(
+      loadCartRequest({
+        product: {
+          id: product.sku,
+          name: product.name,
+          price: product.price,
+        },
+        quantity,
+      })
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -172,14 +157,14 @@ function SingleProduct() {
               {product.description}
             </p>
             <p className="text-2xl flex font-semibold items-center ">
-              ${product.price}.00{" "}
+              ${product.price}
               <p className="line-through text-gray-500 ml-2 text-lg">
-                ${product.price}.00
+                ${product.price}
               </p>
             </p>
 
             <p className="text-sm text-green-500">
-              {product.quantity} products avaliable
+              {product.stock} products avaliable
             </p>
             <div className="space-y-6">
               <div>
@@ -210,7 +195,11 @@ function SingleProduct() {
                     </button>
                   </div>
 
-                  <button className="flex-1 bg-white border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition duration-150 ease-in-out">
+                  <button
+                    type="button"
+                    onClick={handleAddToCart}
+                    className="flex-1 bg-white border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition duration-150 ease-in-out"
+                  >
                     <CgShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
                   </button>
                 </div>

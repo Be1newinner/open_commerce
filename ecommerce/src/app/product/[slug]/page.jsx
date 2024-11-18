@@ -1,10 +1,22 @@
-import React from "react";
+"use client";
+import React, { use, useEffect } from "react";
 import SingleProduct from "../../../components/SingleProduct";
+import { useDispatch, useSelector } from "react-redux";
+import { loadSingleProductService } from "@/service/api/productAPI/productService";
+import { loadAllProductRequest, loadSingleProductRequest } from "@/redux/reducers/productReducer";
 
-export default function ProductDetails() {
+export default function ProductDetails({ params }) {
+  const slug = params.slug
+  const ProductDetails = useSelector((state) => state.product.data);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadSingleProductRequest(slug));
+  }, [dispatch, slug]);
+
   return (
     <div>
-      <SingleProduct />
+      <SingleProduct product={ProductDetails} />
     </div>
   );
 }
