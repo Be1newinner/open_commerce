@@ -11,6 +11,7 @@ import ProductListGrid from "../../components/product/productListGrid";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { loadAllProductRequest } from "@/redux/reducers/productReducer";
+import { AddCart } from "@/redux/reducers/cartReducer";
 
 export default function ProductList() {
   const [grid, setGrid] = useState(true);
@@ -22,6 +23,10 @@ export default function ProductList() {
   useEffect(() => {
     dispatch(loadAllProductRequest());
   }, [dispatch]);
+
+  const handleAddToCart = (product) => {
+    dispatch(AddCart(product));
+  };
 
   const renderStars = (rating) => {
     const stars = [];
@@ -135,55 +140,60 @@ export default function ProductList() {
         <SidebarFilter />
         <section className="max-w-5xl max-xl:mx-auto max-xl:px-4 ">
           {grid ? (
-            products.map((product) => (
-              <Link key={product.sku} href={`/product/${product.sku}`}>
-                <div className=" mb-4 bg-white shadow-lg rounded-lg overflow-hidden">
-                  <div className="p-6">
-                    <div className="flex flex-col md:flex-row gap-6">
-                      <div className="w-full md:w-1/3">
-                        <div className="aspect-square justify-center flex items-center relative bg-gray-50 rounded-lg overflow-hidden">
+            products.map((product, index) => (
+              <div
+                key={index}
+                className=" mb-4 bg-white shadow-lg rounded-lg overflow-hidden"
+              >
+                <div className="p-6">
+                  <div className="flex flex-col md:flex-row gap-6">
+                    <div className="w-full md:w-1/3">
+                      <div className="aspect-square justify-center flex items-center relative bg-gray-50 rounded-lg overflow-hidden">
+                        <Link href={`/product/${product.sku}`}>
                           <Image
                             src={image1}
                             alt="Product Image"
                             width={200}
                             height={200}
                           />
-                        </div>
+                        </Link>
                       </div>
-
-                      <div className="w-full md:w-2/3">
-                        <div className="text-sm text-gray-600 mb-2">
-                          {product.store}
-                        </div>
-
+                    </div>
+                    <div className="w-full md:w-2/3">
+                      <div className="text-sm text-gray-600 mb-2">
+                        {product.store}
+                      </div>
+                      <Link href={`/product/${product.sku}`}>
                         <h1 className="text-xl font-semibold text-gray-900 mb-2">
                           {product.name}
                         </h1>
-
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className="flex">{renderStars(3.5)}</div>
-                          <span className="text-sm text-gray-600">
-                            ({product.reviews} reviews)
-                          </span>
-                        </div>
-
-                        <div className="text-xl font-bold text-blue-600 mb-4">
-                          ${product.price}.00
-                        </div>
-
-                        <p className="text-gray-700 mb-6">
-                          {product.description}
-                        </p>
-
-                        {/* Add to Cart Button */}
-                        <button className="bg-gray-900 text-white hover:bg-gray-800 px-6 py-2 rounded">
-                          Add To Cart
-                        </button>
+                      </Link>
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="flex">{renderStars(3.5)}</div>
+                        <span className="text-sm text-gray-600">
+                          ({product.reviews} reviews)
+                        </span>
                       </div>
+
+                      <div className="text-xl font-bold text-blue-600 mb-4">
+                        ${product.price}.00
+                      </div>
+
+                      <p className="text-gray-700 mb-6">
+                        {product.description}
+                      </p>
+
+                      <button
+                        type="button"
+                        onClick={() => handleAddToCart(product)}
+                        className="bg-gray-900 text-white hover:bg-gray-800 px-6 py-2 rounded"
+                      >
+                        Add To Cart
+                      </button>
                     </div>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))
           ) : (
             <ProductListGrid />

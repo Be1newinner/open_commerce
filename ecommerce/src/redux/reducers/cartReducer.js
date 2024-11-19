@@ -10,21 +10,17 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    loadCartRequest: (state, action) => {
-      state.loading = true;
+    AddCart: (state, action) => {
+      state.data.push(action.payload);
     },
-    loadCartSuccess: (state, action) => {
-      state.loading = false;
-      state.data = action.payload;
-    },
-    loadCartFailure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
+
+    RemoveCart: (state, action) => {
+      state.data = state.data.filter((item) => item.id !== action.payload);
     },
   },
 });
 
-export const { loadCartRequest, loadCartSuccess, loadCartFailure } =
+export const { AddCart, RemoveCart } =
   cartSlice.actions;
 
 export default cartSlice.reducer;

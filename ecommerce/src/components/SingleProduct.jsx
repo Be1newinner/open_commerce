@@ -20,7 +20,7 @@ import {
 } from "react-icons/fa";
 import { LuCheckCircle } from "react-icons/lu";
 import { useDispatch } from "react-redux";
-import { loadCartRequest } from "@/redux/reducers/cartReducer";
+import { AddCart } from "@/redux/reducers/cartReducer";
 
 function SingleProduct({ product }) {
   const [activeTab, setActiveTab] = useState("description");
@@ -49,25 +49,25 @@ function SingleProduct({ product }) {
 
   const images = [image1, image2, image3, image4, image5];
 
-  useEffect(() => {
-    getProductDetails();
-  }, []);
+  // useEffect(() => {
+  //   getProductDetails();
+  // }, []);
 
-  const getProductDetails = async () => {
-    const mockProduct = {
-      name: "Dell UltraSharp U2720Q 27-Inch 4K USB-C Monitor",
-      price: 1299,
-      description:
-        "With this intelligent headset, you can stay connected and productive from the first call of the day to the last train home. With an ergonomic earcup design, this headset invented a brand-new dual-foam technology. You will be comfortable from the first call to the last thanks to the re-engineered leatherette ear cushion design that allows for better airflow.",
-      category: "Category Name",
-      image: image1,
-      rating: 4,
-      reviews: 10,
-      sku: "ABC123",
-      tags: "Tag Name",
-    };
-    setProduct(mockProduct);
-  };
+  // const getProductDetails = async () => {
+  //   const mockProduct = {
+  //     name: "Dell UltraSharp U2720Q 27-Inch 4K USB-C Monitor",
+  //     price: 1299,
+  //     description:
+  //       "With this intelligent headset, you can stay connected and productive from the first call of the day to the last train home. With an ergonomic earcup design, this headset invented a brand-new dual-foam technology. You will be comfortable from the first call to the last thanks to the re-engineered leatherette ear cushion design that allows for better airflow.",
+  //     category: "Category Name",
+  //     image: image1,
+  //     rating: 4,
+  //     reviews: 10,
+  //     sku: "ABC123",
+  //     tags: "Tag Name",
+  //   };
+  //   setProduct(mockProduct);
+  // };
 
   const handleQuantityChange = (change) => {
     setQuantity((prev) => Math.max(1, prev + change));
@@ -83,17 +83,8 @@ function SingleProduct({ product }) {
 
   const dispatch = useDispatch();
 
-  const handleAddToCart = () => {
-    dispatch(
-      loadCartRequest({
-        product: {
-          id: product.sku,
-          name: product.name,
-          price: product.price,
-        },
-        quantity,
-      })
-    );
+  const handleAddToCart = (product) => {
+    dispatch(AddCart(product));
   };
 
   return (
@@ -197,7 +188,7 @@ function SingleProduct({ product }) {
 
                   <button
                     type="button"
-                    onClick={handleAddToCart}
+                    onClick={() => handleAddToCart(product)}
                     className="flex-1 bg-white border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition duration-150 ease-in-out"
                   >
                     <CgShoppingCart className="mr-2 h-5 w-5" /> Add to Cart

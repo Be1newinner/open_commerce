@@ -3,8 +3,20 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import image1 from "@/assets/1.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { RemoveCart } from "@/redux/reducers/cartReducer";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 export default function Cart() {
+  const cartItems = useSelector((state) => state.cart.data);
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    dispatch(RemoveCart(id));
+  };
+
+
+
   return (
     <div className="max-w-7xl my-20 mx-auto justify-between  max-xl:w-[90%]">
       <div className="flex gap-10 max-xl:flex-wrap max-md:w-full max-md:h-full max-md:p-0 max-md:flex-wrap min-md:w-4/5 ">
@@ -15,41 +27,49 @@ export default function Cart() {
             <h1 className="font-semibold">Quantity</h1>
             <h1 className="font-semibold">Total</h1>
           </div>
-          <div className="flex items-center max-md:hidden">
-            <div className="flex  max-sm:flex-wrap ">
-              <Image src={image1} className="p-4 " width={100} height={100} />
-              <div className="font-medium w-[200px] p-4 max-md:w-1/4">
-                <h1>Lenovo ThinkPad X1 Carbon Gen 9 Laptop</h1>
+          {cartItems.map((item, index) => (
+            <div key={index} className="flex items-center max-md:hidden">
+              <div className="flex  max-sm:flex-wrap ">
+                <Image src={image1} className="p-4 " width={100} height={100} />
+                <div className="font-medium w-[200px] p-4 max-md:w-1/4">
+                  <h1>{item.name}</h1>
+                  {item.stock === 0 ? (
+                    <p className="text-red-800 text-sm mt-2">Out of stock</p>
+                  ) : (
+                    <p className="text-green-800 text-sm mt-2">In stock</p>
+                  )}
 
-                <p className="text-green-800 text-sm mt-2">In stock</p>
-                <h6 className="text-sm mt-1">Vendor: Royal store</h6>
-                <h6 className="text-sm mt-1">(Color: Black, Size: XL)</h6>
+                  <h6 className="text-sm mt-1">
+                    Vendor: {item.vendor ? item.vendor : "Shofy"}
+                  </h6>
+                  <h6 className="text-sm mt-1">(Color: Black, Size: XL)</h6>
+                </div>
+              </div>
+
+              <div className="flex flex-1  items-center justify-between ">
+                <div className="p-4 font-medium  max-md:w-1/4">
+                  <p>${item.price}</p>
+                </div>
+                <div className="flex gap-4 items-center border-2  h-8 p-3 rounded-full ">
+                  <FaMinus className="md:text-sm " />
+                  <input
+                    type="text"
+                    value={1}
+                    className="w-12 text-center focus:outline-none border-x-2"
+                  />
+                  <FaPlus className="md:text-sm" />
+                </div>
+                <div className="p-4 font-medium max-md:ml-1 max-md:w-1/4">
+                  <p>${item.total}</p>
+                </div>
+                <button type="button" onClick={() => handleDelete(item.id)} className="p-4 font-medium max-md:ml-1 max-md:w-1/4">
+                  Remove
+                </button>
+                
               </div>
             </div>
+          ))}
 
-            <div className="flex flex-1  items-center justify-between ">
-              <div className="p-4 font-medium  max-md:w-1/4">
-                <p>$878.00</p>
-              </div>
-              <div className="flex gap-4 items-center border-2  h-8 p-3 rounded-full ">
-                <FaMinus className="md:text-sm " />
-                <input
-                  type="text"
-                  value={1}
-                  className="w-12 text-center focus:outline-none border-x-2"
-                />
-                <FaPlus className="md:text-sm" />
-              </div>
-              <div className="p-4 font-medium max-md:ml-1 max-md:w-1/4">
-                <p>$878.00</p>
-              </div>
-              {/* <div className=" p-5">
-                <Link to="#" className="text-2xl p-10 ">
-                  <RiDeleteBin5Line />
-                </Link>
-              </div> */}
-            </div>
-          </div>
           <div className="md:hidden">
             <div>
               <div className="max-md:flex max-md:w-full  ">
@@ -82,7 +102,7 @@ export default function Cart() {
             </div>
           </div>
 
-          <hr></hr>
+          <hr />
 
           <div className="mt-8 max-md:px-10 md:px-4">
             <span>Coupon Code:</span>

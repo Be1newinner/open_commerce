@@ -24,11 +24,14 @@ import {
 } from "react-icons/fa";
 import { MdOutlineNewReleases } from "react-icons/md";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState("");
   const [showCategories, setShowCategories] = useState(false); // State to toggle "All Categories"
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
+  const items = useSelector((state) => state.cart.data);
+
 
   const handleMenu = () => {
     setShowMenu(true);
@@ -42,8 +45,16 @@ export default function Navbar() {
     setOpenDropdown(openDropdown === menu ? "" : menu);
   };
 
+  const stickyNavbar = () => {
+    if (window.scrollY > 0) {
+      document.getElementById("navbar").classList.add("sticky");
+    } else {
+      document.getElementById("navbar").classList.remove("sticky");
+    }
+  };
+
   return (
-    <div className="">
+    <div id="navbar" onScroll={stickyNavbar} className=" ">
       <div className=" flex justify-between items-center py-5 w-[1280px] mx-auto max-xl:w-[90%] ">
         <Link href="/">
           <div className="flex items-center">
@@ -97,7 +108,12 @@ export default function Navbar() {
             <LuArrowDownUp className=" text-2xl" />
             <IoMdHeartEmpty className="text-2xl" />
             <Link href="/cart">
-              <FaShoppingBag className="text-2xl " />
+              <div>
+                <FaShoppingBag className="text-2xl " />
+                <div>
+                  <h5 className="font-semibold">{items.length}</h5>
+                </div>
+              </div>
             </Link>
           </div>
         </div>

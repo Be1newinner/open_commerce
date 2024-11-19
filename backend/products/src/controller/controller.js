@@ -32,6 +32,9 @@ const createProduct = async (req, res) => {
       price: req.body.price,
       stock: req.body.stock,
       image: req.file.buffer,
+      category: req.body.category,
+      store: req.body.store,
+      reviews: req.body.reviews,
     });
     await product.save();
     res.status(201).json(product);
@@ -85,6 +88,9 @@ const updateProduct = async (req, res) => {
         price: req.body.price,
         stock: req.body.stock,
         image: req.file.buffer,
+        category: req.body.category,
+        store: req.body.store,
+        reviews: req.body.reviews,
       },
       { new: true }
     );

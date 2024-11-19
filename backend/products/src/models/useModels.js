@@ -1,27 +1,5 @@
 const mongoose = require("mongoose");
 
-// const mediaSchema = new mongoose.Schema({
-//   filename: {
-//     type: String,
-//     required: true,
-//   },
-
-//   mediaType: {
-//     type: String,
-//     required: true,
-//   },
-
-//   data: {
-//     type: Date,
-//     default: Date.now,
-//   },
-
-//   image: {
-//     type: Buffer,
-//     required: true,
-//   },
-// });
-
 const productSchema = new mongoose.Schema({
   sku: {
     type: Number,
@@ -44,9 +22,20 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-
   image: {
     type: Buffer,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
+  store: {
+    type: String,
+    required: true,
+  },
+  reviews: {
+    type: Number,
     required: true,
   },
 });
