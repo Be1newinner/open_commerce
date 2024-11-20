@@ -23,9 +23,9 @@ export default function TrendingProductCart() {
   return (
     <>
       {products.map((product) => (
-        <section className="group hover:shadow-lg hover:shadow hover:shadow-gray-400 duration-500 items-center gap-4 border-solid border-2 border-gray-300 rounded-xl w-[24%] max-xl:w-[48%] max-sm:w-full p-2 ">
+        <section className="group hover:shadow-lg hover:shadow-gray-400 duration-500 items-center gap-4 border-solid border-2 border-gray-300 rounded-xl w-[24%] max-xl:w-[48%] max-sm:w-full p-2 ">
           <div className="w-full h-[300px] overflow-hidden justify-center items-center flex group-hover:scale-110 duration-500 ease-in-out ">
-            <Image src={product.img} alt="" width={150} height={150} />
+            <Image src={products.image} alt="" width={150} height={150} />
             <h1 className="absolute bottom-[-40px] hover:bg-blue-800 w-[95%] flex gap-1 justify-center text-center py-2 left-1/2 transform -translate-x-1/2 text-white bg-black text-sm opacity-0 group-hover:opacity-100 group-hover:bottom-4 transition-all duration-500">
               <IoCartOutline size={20} />
               Select Options

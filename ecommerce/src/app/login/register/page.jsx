@@ -17,6 +17,8 @@ export default function Register() {
               src={image}
               alt="Description of image"
               class="w-full h-auto"
+              width={200}
+              height={200}
             />
           </div>
           <div className="w-3/5 bg-gray-100 max-md:w-screen ">

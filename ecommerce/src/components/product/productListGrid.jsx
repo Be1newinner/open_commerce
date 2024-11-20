@@ -16,7 +16,7 @@ export default function ProductListGrid() {
 
   return (
     <div className="flex flex-wrap max-w-5xl max-md:w-full mb-10 mx-auto gap-7 ">
-      {products.map((product) => (
+      {products?.map((product) => (
         <Link href={`/product/${product.sku}`} key={product.id}>
           <section className="group hover:shadow-lg hover:shadow-gray-400 duration-500 items-center gap-4 border-solid border-2 border-gray-300 rounded-xl w-[300px] max-md:w-full max-sm:w-full p-2 ">
             <div className="w-full h-[300px] overflow-hidden justify-center items-center flex group-hover:scale-110 duration-500 ease-in-out ">
@@ -55,6 +55,11 @@ export default function ProductListGrid() {
           </section>
         </Link>
       ))}
+
+      <div className="flex justify-between gap-2 w-full cursor-pointer">
+        <h1>page previous </h1>
+        <h1>page next </h1>
+      </div>
     </div>
   );
 }

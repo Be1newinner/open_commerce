@@ -1,3 +1,4 @@
+const { urlencoded } = require("express");
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
@@ -23,7 +24,7 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   image: {
-    type: Buffer,
+    type: String,
     required: true,
   },
   category: {

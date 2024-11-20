@@ -31,6 +31,8 @@ const OnSale = () => {
               src={data.image}
               alt="prductimg"
               className="group-hover:scale-105 duration-500"
+              width={300}
+              height={300}
             />
             <div className="">
               <h3 className=" text-slate-500">shofy</h3>

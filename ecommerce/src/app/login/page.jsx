@@ -15,6 +15,8 @@ export default function Login() {
               src={image}
               alt="Description of image"
               className="w-full h-auto"
+              width={500}
+              height={500}
             />
           </div>
           <div className="w-3/5 bg-gray-100 max-md:w-screen ">

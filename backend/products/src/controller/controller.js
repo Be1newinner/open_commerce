@@ -1,37 +1,42 @@
 const { Product } = require("../models/useModels");
 const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../../public", "uploads", "products"));
+  },
+
+  filename: (req, file, cb) => {
+    const fileExtension = path.extname(file.originalname);
+    cb(null, `${req.body.sku}${fileExtension}`);
+    console.log("SKU:", fileExtension);
+  },
+});
 
 const upload = multer({
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB
   },
-  storage: multer.memoryStorage(),
+  storage: storage,
 });
-
-const uploadImage = async (req, res) => {
-  try {
-    const mediaInstance = new Media({
-      filename: req.file.originalname,
-      mediaType: req.file.mimetype,
-      image: req.file.buffer,
-    });
-    await mediaInstance.save();
-    res.status(201).json({ message: "Image uploaded successfully" });
-    return mediaInstance;
-  } catch (error) {
-    res.status(400).json({ message: "failed to upload image" });
-  }
-};
 
 const createProduct = async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No image file uploaded." });
+    }
+    console.log("filename : ", req.file.filename);
+
+    const imagePath = `/uploads/products/${req.file.filename}`;
+
     const product = new Product({
       sku: req.body.sku,
       name: req.body.name,
       description: req.body.description,
       price: req.body.price,
       stock: req.body.stock,
-      image: req.file.buffer,
+      image: imagePath,
       category: req.body.category,
       store: req.body.store,
       reviews: req.body.reviews,
@@ -45,8 +50,25 @@ const createProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
+    const { limit = 5, page = 1 } = req.query;
+    const products = await Product.find()
+      .limit(limit)
+      .skip((page - 1) * limit);
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getAllProductsByCategory = async (req, res) => {
+  try {
     const { category } = req.body;
+
+    console.log("Category:", category);
+
     const products = await Product.find({ category });
+    console.log("Products:", products);
+
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -79,6 +101,12 @@ const getProductBySku = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No image file uploaded." });
+    }
+
+    const imagePath = `/uploads/products/${req.file.filename}`;
+
     const product = await Product.findByIdAndUpdate(
       req.params.id,
       {
@@ -87,7 +115,7 @@ const updateProduct = async (req, res) => {
         description: req.body.description,
         price: req.body.price,
         stock: req.body.stock,
-        image: req.file.buffer,
+        image: imagePath,
         category: req.body.category,
         store: req.body.store,
         reviews: req.body.reviews,
@@ -121,6 +149,5 @@ module.exports = {
   getProductBySku,
   updateProduct,
   deleteProduct,
-  uploadImage,
   upload,
 };

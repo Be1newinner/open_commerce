@@ -6,17 +6,13 @@ const {
   deleteProduct,
   getProductBySku,
   upload,
-  uploadImage,
 } = require("../controller/controller");
 const router = express.Router();
 
-router.post("/createproduct", upload.single("image"), createProduct);
+router.post("/product", upload.single("image"), createProduct);
 router.get("/product", getAllProducts);
-// router.get("/product/:id", getProductById);
 router.get("/product/:sku", getProductBySku);
-router.put("/updateproduct/:id", updateProduct);  
-router.delete("/deleteproduct/:id", deleteProduct);
-
-router.post("/upload", upload.single("image"), uploadImage);
+router.patch("/product/:id", updateProduct);
+router.delete("/product/:id", deleteProduct);
 
 module.exports = router;

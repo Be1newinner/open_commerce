@@ -15,6 +15,7 @@ export default function TrendingProducts() {
         <h1 className="text-4xl font-bold text-blue-800 ">
           Trending <span className="text-black">Products</span>
         </h1>
+        
         <ul className="flex flex-wrap max-lg:mt-10 gap-10 font-semibold text-xl text-gray-800">
           {["All", "Featured", "On Sale", "Trending", "Top Rated"].map(
             (item) => (
