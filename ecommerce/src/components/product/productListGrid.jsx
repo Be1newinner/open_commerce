@@ -1,18 +1,29 @@
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { IoCartOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { loadAllProductRequest } from "@/redux/reducers/productReducer";
 import Link from "next/link";
 
 export default function ProductListGrid() {
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(6);
+
   const ProductData = useSelector((state) => state.product.data);
-  const products = ProductData;
+  const products = ProductData.slice((page - 1) * limit, page * limit);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadAllProductRequest());
-  }, [dispatch]);
+  }, [dispatch, page, limit]);
+
+  const handlePreviousPage = () => {
+    setPage(page - 1);
+  };
+
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
 
   return (
     <div className="flex flex-wrap max-w-5xl max-md:w-full mb-10 mx-auto gap-7 ">
@@ -57,9 +68,20 @@ export default function ProductListGrid() {
       ))}
 
       <div className="flex justify-between gap-2 w-full cursor-pointer">
-        <h1>page previous </h1>
-        <h1>page next </h1>
+        <button
+          className="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-900"
+          onClick={handlePreviousPage}
+        >
+          Previous
+        </button>
+        <button
+          className="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-900"
+          onClick={handleNextPage}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
 }
+

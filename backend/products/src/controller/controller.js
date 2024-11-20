@@ -9,8 +9,7 @@ const storage = multer.diskStorage({
 
   filename: (req, file, cb) => {
     const fileExtension = path.extname(file.originalname);
-    cb(null, `${req.body.sku}${fileExtension}`);
-    console.log("SKU:", fileExtension);
+    cb(null, `${Date.now()}${fileExtension}`);
   },
 });
 
@@ -50,7 +49,7 @@ const createProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const { limit = 5, page = 1 } = req.query;
+    const { limit = 8, page = 1 } = req.query;
     const products = await Product.find()
       .limit(limit)
       .skip((page - 1) * limit);
@@ -60,20 +59,20 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-const getAllProductsByCategory = async (req, res) => {
-  try {
-    const { category } = req.body;
+// const getAllProductsByCategory = async (req, res) => {
+//   try {
+//     const { category } = req.body;
 
-    console.log("Category:", category);
+//     console.log("Category:", category);
 
-    const products = await Product.find({ category });
-    console.log("Products:", products);
+//     const products = await Product.find({ category });
+//     console.log("Products:", products);
 
-    res.status(200).json(products);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+//     res.status(200).json(products);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 // const getProductById = async (req, res) => {
 //   try {
@@ -90,6 +89,7 @@ const getAllProductsByCategory = async (req, res) => {
 const getProductBySku = async (req, res) => {
   try {
     const product = await Product.findOne({ sku: req.params.sku });
+
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }

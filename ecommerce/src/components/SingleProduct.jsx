@@ -20,14 +20,20 @@ import {
 } from "react-icons/fa";
 import { LuCheckCircle } from "react-icons/lu";
 import { useDispatch } from "react-redux";
-import { AddCart } from "@/redux/reducers/cartReducer";
+import {
+  AddCart,
+  decreaseQuantity,
+  increaseQuantity,
+} from "@/redux/reducers/cartReducer";
+import Link from "next/link";
 
-function SingleProduct({ product }) {
+function SingleProduct({ product, quantity }) {
   const [activeTab, setActiveTab] = useState("description");
-  const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
+
+  console.log("product => ", product);
 
   const reviewStats = {
     averageRating: 3.1,
@@ -68,10 +74,6 @@ function SingleProduct({ product }) {
   //   };
   //   setProduct(mockProduct);
   // };
-
-  const handleQuantityChange = (change) => {
-    setQuantity((prev) => Math.max(1, prev + change));
-  };
 
   if (!product) {
     return (
@@ -166,33 +168,57 @@ function SingleProduct({ product }) {
                   Quantity
                 </label>
                 <div className="flex gap-2">
-                  <div className="flex items-center overflow-hidden w-28 bg-gray-100">
+                  {quantity === 0 ? (
                     <button
                       type="button"
-                      onClick={() => handleQuantityChange(-1)}
-                      className="p-3 text-blue-800 hover:bg-violet-100 focus:outline-none transition-colors duration-200 active:bg-blue-200"
+                      onClick={() => handleAddToCart(product)}
+                      className="flex-1  bg-white border-2 border-black  border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition duration-150 ease-in-out"
                     >
-                      <BiMinus className="h-5 w-5" />
+                      <CgShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
                     </button>
-                    <div className="w-full text-center border-blue-300 py-2 text-lg font-semibold text-blue-800">
-                      {quantity}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleQuantityChange(1)}
-                      className="p-3 text-blue-800 hover:bg-violet-100 focus:outline-none transition-colors duration-200 active:bg-blue-200"
-                    >
-                      <BiPlus className="h-5 w-5" />
-                    </button>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => handleAddToCart(product)}
-                    className="flex-1 bg-white border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition duration-150 ease-in-out"
-                  >
-                    <CgShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
-                  </button>
+                  ) : (
+                    <>
+                      <div className="flex items-center overflow-hidden w-28 bg-gray-100">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            dispatch(
+                              decreaseQuantity({ ...quantity, quantity: -1 })
+                            )
+                          }
+                          className="p-3 text-blue-800 hover:bg-violet-100 focus:outline-none transition-colors duration-200 active:bg-blue-200"
+                        >
+                          <BiMinus className="h-5 w-5" />
+                        </button>
+                        <div className="w-full text-center border-blue-300 py-2 text-lg font-semibold text-blue-800">
+                          {quantity}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            dispatch(
+                              increaseQuantity({ ...quantity, quantity: +1 })
+                            )
+                          }
+                          className="p-3 text-blue-800 hover:bg-violet-100 focus:outline-none transition-colors duration-200 active:bg-blue-200"
+                        >
+                          <BiPlus className="h-5 w-5" />
+                        </button>
+                      </div>
+                      <Link
+                        href="/cart"
+                        className="flex-1  bg-white border-2 border-black  border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition duration-150 ease-in-out"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => handleAddToCart(product)}
+                          className=" flex"
+                        >
+                          <CgShoppingCart className="mr-2 h-5 w-5" /> View Cart
+                        </button>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
               <button className="w-full bg-blue-800 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition duration-150 ease-in-out">

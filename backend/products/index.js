@@ -5,8 +5,12 @@ const connectDB = require("./src/config/db");
 const routes = require("./src/router/router");
 const path = require("path");
 const cors = require("cors");
+const morgan = require("morgan");
+
 const app = express();
+
 connectDB();
+app.use(morgan("dev"));
 app.use(
   cors({
     origin: "http://localhost:3000",

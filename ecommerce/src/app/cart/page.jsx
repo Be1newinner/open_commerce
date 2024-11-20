@@ -4,18 +4,26 @@ import image1 from "@/assets/1.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { RemoveCart } from "@/redux/reducers/cartReducer";
+import {
+  AddCart,
+  decreaseQuantity,
+  increaseQuantity,
+  RemoveCart,
+} from "@/redux/reducers/cartReducer";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
 export default function Cart() {
-  const cartItems = useSelector((state) => state.cart.data);
+  // const cartItems = useSelector((state) => state.cart.data);
+  // const quantity = useSelector((state) => state.cart.quantity);
+  // const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const { data, quantity, tax, totalPrice } = useSelector(
+    (state) => state.cart
+  );
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
     dispatch(RemoveCart(id));
   };
-
-
 
   return (
     <div className="max-w-7xl my-20 mx-auto justify-between  max-xl:w-[90%]">
@@ -27,7 +35,7 @@ export default function Cart() {
             <h1 className="font-semibold">Quantity</h1>
             <h1 className="font-semibold">Total</h1>
           </div>
-          {cartItems.map((item, index) => (
+          {data.map((item, index) => (
             <div key={index} className="flex items-center max-md:hidden">
               <div className="flex  max-sm:flex-wrap ">
                 <Image src={image1} className="p-4 " width={100} height={100} />
@@ -51,21 +59,41 @@ export default function Cart() {
                   <p>${item.price}</p>
                 </div>
                 <div className="flex gap-4 items-center border-2  h-8 p-3 rounded-full ">
-                  <FaMinus className="md:text-sm " />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      dispatch(increaseQuantity({ ...quantity, quantity: + 1 }))
+                    }
+                  >
+                    <FaPlus className="md:text-sm" />
+                  </button>
                   <input
                     type="text"
-                    value={1}
+                    value={quantity}
                     className="w-12 text-center focus:outline-none border-x-2"
+                    onChange={(e) =>
+                      dispatch(AddCart({ ...item, quantity: +e.target.value }))
+                    }
                   />
-                  <FaPlus className="md:text-sm" />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      dispatch(decreaseQuantity({ ...quantity, quantity: - 1 }))
+                    }
+                  >
+                    <FaMinus className="md:text-sm" />
+                  </button>
                 </div>
                 <div className="p-4 font-medium max-md:ml-1 max-md:w-1/4">
-                  <p>${item.total}</p>
+                  <p>${totalPrice}</p>
                 </div>
-                <button type="button" onClick={() => handleDelete(item.id)} className="p-4 font-medium max-md:ml-1 max-md:w-1/4">
+                <button
+                  type="button"
+                  onClick={() => handleDelete(item.id)}
+                  className="p-4 font-medium max-md:ml-1 max-md:w-1/4"
+                >
                   Remove
                 </button>
-                
               </div>
             </div>
           ))}
@@ -83,7 +111,7 @@ export default function Cart() {
                 </div>
                 <div className="font-medium p-4">
                   <h1>Lenovo ThinkPad X1 Carbon Gen 9 Laptop</h1>
-                  <p className="text-2xl font-medium mt-2">$878.00</p>
+                  <p className="text-2xl font-medium mt-2">$999.00</p>
 
                   <p className="text-green-800 text-sm mt-2">In stock</p>
                   <h6 className="text-sm mt-1">Vendor: Royal store</h6>
@@ -94,7 +122,7 @@ export default function Cart() {
                 <FaMinus className="" />
                 <input
                   type="text"
-                  value={1}
+                  value={quantity}
                   className="w-10 text-center focus:outline-none border-x-2"
                 />
                 <FaPlus />
@@ -131,18 +159,18 @@ export default function Cart() {
           <div>
             <div className="flex justify-between font-medium text-xl ">
               <h1>Subtotal</h1>
-              <p>$878.00</p>
+              <p>${totalPrice}.00</p>
             </div>
             <br></br>
             <hr></hr>
 
             <div className="flex justify-between mt-4">
               <span>Tax</span>
-              <span>$0.00</span>
+              <span>${tax}.00</span>
             </div>
             <div className="flex justify-between font-medium text-xl mt-4 ">
               <h1>Total</h1>
-              <p>$878.00</p>
+              <p>${totalPrice + tax}</p>
             </div>
             <p className="text-sm mt-2">(Shipping fees not included)</p>
           </div>

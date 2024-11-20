@@ -32,7 +32,6 @@ export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
   const items = useSelector((state) => state.cart.data);
 
-
   const handleMenu = () => {
     setShowMenu(true);
   };
@@ -143,37 +142,9 @@ export default function Navbar() {
           </h1>
 
           <h1 className="ml-4 cursor-pointer">Home</h1>
-
-          <h1 className=" cursor-pointer group z-50  relative">
-            <span className="flex items-center gap-2 font-semibold py-3">
-              Shop
-              <IoIosArrowDown />
-            </span>
-            <div className="absolute hidden group-hover:block bg-white border shadow-md w-[250px]">
-              <ul className="py-2">
-                <Link href="/product">
-                  <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                    Product
-                  </li>
-                </Link>
-                <Link href="/product/productDetails">
-                  <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                    Product Details
-                  </li>
-                </Link>
-                <Link href="/cart">
-                  <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                    Cart
-                  </li>
-                </Link>
-              </ul>
-            </div>
-          </h1>
-          <Link href="/vender">
-            <h1 className="ml-4 cursor-pointer">Vendors</h1>
+            <Link href="/product">
+          <h1 className=" cursor-pointer group z-50  relative">Shop</h1>
           </Link>
-          <h1 className="ml-4 cursor-pointer">Pages</h1>
-          <h1 className="ml-4 cursor-pointer">Blog</h1>
         </div>
         <div className="flex items-center w-[200px] gap-2 max-lg:hidden">
           <FiPhoneCall size={24} color="blue" />
