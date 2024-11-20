@@ -20,7 +20,7 @@ export default function TrendingProductCart() {
 
   return (
     <>
-      {products.map((product) => (
+      {Array.isArray(products) && products.map((product) => (
         <section className="group hover:shadow-lg hover:shadow-gray-400 duration-500 items-center gap-4 border-solid border-2 border-gray-300 rounded-xl w-[24%] max-xl:w-[48%] max-sm:w-full p-2 ">
           <Link href={`/product/${product.sku}`} key={product.id}>
             <div className="w-full h-[300px] overflow-hidden justify-center items-center flex group-hover:scale-110 duration-500 ease-in-out ">

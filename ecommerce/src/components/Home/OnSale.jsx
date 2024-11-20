@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadAllProductRequest } from "@/redux/reducers/productReducer";
 
 const OnSale = () => {
-  const productData = useSelector((state) => state.product.data);
-  const product = productData.slice(0, 9);
+  const product = useSelector((state) => state.product.data);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const OnSale = () => {
         <h1 className="text-3xl font-semibold text-black">Top Rated</h1> */}
       </div>
       <div className=" flex flex-wrap w-[1280px] mx-auto gap-10">
-        {product.map((data, index) => (
+        {Array.isArray(product) && product.map((data, index) => (
           <div
             key={index}
             className="group flex w-[30%] max-lg:w-[48%] max-sm:w-full overflow-hidden"
