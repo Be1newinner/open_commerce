@@ -20,6 +20,7 @@ const cartSlice = createSlice({
 
       if (!foundItem) {
         state.data.push(action.payload);
+        state.quantity += 1;
       } else {
         state.quantity += 1;
       }

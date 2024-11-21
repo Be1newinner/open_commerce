@@ -1,33 +1,33 @@
+const { v4: uuidv4 } = require("uuid");
 const { Product } = require("../models/useModels");
 const multer = require("multer");
 const path = require("path");
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../../public", "uploads", "products"));
-  },
-
-  filename: (req, file, cb) => {
-    const fileExtension = path.extname(file.originalname);
-    cb(null, `${Date.now()}${fileExtension}`);
-  },
-});
+const fs = require("fs");
+const { uploadFile } = require("../config/s3url");
 
 const upload = multer({
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB
   },
-  storage: storage,
+  storage: multer.memoryStorage(),
 });
 
 const createProduct = async (req, res) => {
   try {
-    if (!req.file) {
+    const s3Urls = await Promise.all(
+      req.files.map(async (file) => {
+        const s3Key = `sofy/products/${uuidv4()}${path.extname(
+          file.originalname
+        )}`;
+        await uploadFile(file.buffer.toString("base64"), s3Key);
+
+        return `https://aws-ap-south-1-008971631073-shipsar-demo-pipe.s3.ap-south-1.amazonaws.com/${s3Key}`;
+      })
+    );
+
+    if (!req.file || req.file.length === 0) {
       return res.status(400).json({ message: "No image file uploaded." });
     }
-    console.log("filename : ", req.file.filename);
-
-    const imagePath = `/uploads/products/${req.file.filename}`;
 
     const product = new Product({
       sku: req.body.sku,
@@ -35,7 +35,7 @@ const createProduct = async (req, res) => {
       description: req.body.description,
       price: req.body.price,
       stock: req.body.stock,
-      image: imagePath,
+      image: s3Urls,
       category: req.body.category,
       store: req.body.store,
       reviews: req.body.reviews,

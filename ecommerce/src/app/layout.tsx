@@ -6,6 +6,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ClientProvider from "../components/ClientProvider";
+// import SideCart from "@/components/SideCart";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,6 +36,7 @@ export default function RootLayout({
       >
         <ClientProvider>
           <Navbar />
+          {/* <SideCart /> */}
           {children}
           <Footer />
         </ClientProvider>
