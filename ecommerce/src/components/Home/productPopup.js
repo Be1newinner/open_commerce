@@ -16,7 +16,6 @@ const ProductPopup = () => {
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 z-10">
-   
           <div className="bg-white shadow-md rounded-md p-6 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-md">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">{product.name}</h2>

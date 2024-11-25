@@ -2,27 +2,40 @@ const { Orders } = require("../models/useModels");
 async function orderDetails(req, res) {
   try {
     const {
-      userID,
-      productDetails,
-      quantities,
-      shippingAddress,
-      paymentMethod,
+      name,
+      email,
+      phone,
+      state,
+      city,
+      pincode,
+      cartItems,
+      quantity,
+      subtotal,
+      total,
+      shipping,
+      discount,
     } = req.body;
 
-    const orderSch = new Orders({
-      userID,
-      productDetails,
-      quantities,
-      shippingAddress,
-      paymentMethod,
+    const order = new Orders({
+      name,
+      email,
+      phone,
+      state,
+      city,
+      pincode,
+      cartItems,
+      quantity,
+      subtotal,
+      total,
+      shipping,
+      discount,
     });
-    console.log("hi");
 
-    const result = await orderSch.save();
-    console.log("Data", result);
-    res.end();
+    await order.save();
+    res.status(200).json({ message: "Order placed successfully" });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 module.exports = { orderDetails };
