@@ -1,0 +1,20 @@
+/* Make sure .slick-dots is positioned correctly */
+#collection-swiper .slick-dots {
+  position: absolute;
+  top: 50%;
+  right: 40px; /* 40px from the right */
+  transform: translateY(-50%); /* Vertically centered */
+  display: flex;
+  flex-direction: column;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: auto;
+}
+
+#collection-swiper .slick-dots li {
+  margin-bottom: 10px; /* Adjust the spacing between dots */
+}
+
+
