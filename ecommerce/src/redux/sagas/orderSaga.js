@@ -8,7 +8,7 @@ import {
 
 function* loadAllOrderSaga(action) {
   try {
-    console.log("SAGA REQUEST => ", action.payload);
+    // console.log("SAGA REQUEST => ", action.payload);
 
     const orders = yield call(loadOrderService, action.payload);
     yield put(loadOrderSuccess(orders));

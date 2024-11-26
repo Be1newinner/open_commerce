@@ -28,9 +28,12 @@ import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState("");
-  const [showCategories, setShowCategories] = useState(false); // State to toggle "All Categories"
+  const [showCategories, setShowCategories] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const items = useSelector((state) => state.cart.data);
+  const { token, data } = useSelector((state) => state.auth);
+
+  console.log("user data is => ", data, token);
 
   const handleMenu = () => {
     setShowMenu(true);
@@ -93,7 +96,11 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <FaRegUserCircle size={36} />
             <div>
-              <h5 className="font-semibold">Hello, Guest</h5>
+              {token ? (
+                <h5 className="font-semibold">Hello,</h5>
+              ) : (
+                <h5 className="font-semibold">Hello, Guest</h5>
+              )}  
 
               <p className="text-gray-500 flex gap-2">
                 <Link href="/login"> Login </Link> /
@@ -142,8 +149,8 @@ export default function Navbar() {
           </h1>
 
           <h1 className="ml-4 cursor-pointer">Home</h1>
-            <Link href="/product">
-          <h1 className=" cursor-pointer group z-50  relative">Shop</h1>
+          <Link href="/product">
+            <h1 className=" cursor-pointer group z-50  relative">Shop</h1>
           </Link>
         </div>
         <div className="flex items-center w-[200px] gap-2 max-lg:hidden">
