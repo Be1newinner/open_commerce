@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Lock } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadOrderRequest } from "@/redux/reducers/orderReducer";
+import { useRouter } from "next/navigation";
 
 const Checkout = () => {
   const cartItems = useSelector((state) => state.cart.data);
@@ -29,6 +30,8 @@ const Checkout = () => {
     total: total,
   });
 
+  const Router = useRouter();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -37,6 +40,7 @@ const Checkout = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loadOrderRequest(formData));
+    Router.push("/orderconfirm");
   };
 
   return (

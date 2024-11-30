@@ -38,4 +38,25 @@ async function orderDetails(req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
-module.exports = { orderDetails };
+
+async function getOrders(req, res) {
+  try {
+    const orders = await Orders.find();
+    res.status(200).json(orders);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+async function getOrderById(req, res) {
+  try {
+    const order = await Orders.findById(req.params.id);
+    res.status(200).json(order);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+module.exports = { orderDetails, getOrders, getOrderById };

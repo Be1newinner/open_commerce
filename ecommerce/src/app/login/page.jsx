@@ -5,9 +5,34 @@ import { MdOutlineMail } from "react-icons/md";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import Image from "next/image";
 import image from "../../assets/Security.jpg";
+import { loginRequest } from "@/redux/reducers/authReducer";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 export default function Login() {
+  const dispatch = useDispatch();
+  const { error, loading, token, data } = useSelector((state) => state.auth);
+  const [FormData, setFormData] = useState({
+    email: "",
+    pass: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...FormData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginRequest(FormData));
+  };
+
   return (
     <div>
+      {data?.email && (
+        <div>
+          <h1> Welcome to {data?.email}</h1>
+        </div>
+      )}
       <div className=" bg-gray-200  p-24 flex justify-center max-md:w-screen max-md:p-0">
         <div className="shadow-2xl flex justify-center w-4/5 max-md:w-screen  ">
           <div className=" bg-white w-3/5 h-99 max-md:hidden ">
@@ -47,6 +72,8 @@ export default function Login() {
                       type="email"
                       id="email"
                       name="email"
+                      value={FormData.email}
+                      onChange={handleChange}
                       placeholder="Email Address"
                       required
                       className="w-full ml-2 h-full outline-none "
@@ -58,10 +85,12 @@ export default function Login() {
                   <div className="flex bg-white h-12 w-full border-solid border border-black">
                     <MdLockOutline className="h-full text-4xl p-1" />
                     <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      placeholder="Password"
+                      type="pass"
+                      id="pass"
+                      name="pass"
+                      value={FormData.pass}
+                      onChange={handleChange}
+                      placeholder="pass"
                       required
                       className="w-full ml-2 h-full outline-none "
                     ></input>
@@ -82,12 +111,15 @@ export default function Login() {
                   </div>
                   <br></br>
                   <button
+                    onClick={handleSubmit}
                     type="submit"
                     className="h-12 w-full bg-black text-white font-medium "
                   >
-                    Login
+                    {loading ? "Loading..." : "Login"}
                     <FaLongArrowAltRight className="text-white inline ml-2" />
                   </button>
+                  {error && <p className="text-red-500">{error}</p>}
+                  {token && <p className="text-green-500">Login Success</p>}
                 </form>
                 <div className="flex justify-center mt-4">
                   <span className="">Don't have an account?</span>

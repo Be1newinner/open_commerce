@@ -11,4 +11,3 @@ export async function loadSingleProductService(sku) {
   console.log("response single data is => ", data);
   return data;
 }
-

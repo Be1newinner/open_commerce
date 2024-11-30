@@ -8,13 +8,13 @@ import OnSale from "@/components/Home/OnSale";
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Hero />
       <Category />
       <TrendingProducts />
       <CollectionSwiper />
       <OnSale />
       <NewsLetter />
-    </div>
+    </>
   );
 }
