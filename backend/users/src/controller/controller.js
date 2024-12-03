@@ -38,8 +38,6 @@ const loginUser = async (req, res) => {
   try {
     const { email, pass } = req.body;
 
-    console.log(email, pass);
-
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -54,55 +52,11 @@ const loginUser = async (req, res) => {
 
     // localStorage.setItem("token", token);
 
+
     res.status(200).json({ message: "Login successful", token });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
 
-const getUser = async (req, res) => {
-  try {
-    const { token } = req.query;
-
-    if (!token) {
-      return res.status(400).json({ error: "Token is required" });
-    }
-
-    
-    const decoded = jwt.verify(token, secretKey); 
-    const user = await User.findOne({ email: decoded.email });
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    res.status(200).json(user);
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
-
-
-// const getUser = async (req, res) => {
-//   console.log("query:",req);
-  
-//   try {
-//     const { email } = req.query;
-//     console.log({email});
-    
-//     const user = await User.findOne({ email });
-//     console.log(user);
-    
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-//     res.status(200).json(user);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-module.exports = { registerUser, loginUser , getUser};
+module.exports = { registerUser, loginUser };

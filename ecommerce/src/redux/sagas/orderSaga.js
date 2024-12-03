@@ -1,10 +1,17 @@
-import { call, put, takeEvery } from "redux-saga/effects";
-import loadOrderService from "../../service/api/orderService";
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import loadOrderService, {
+  getOrderDetailsById,
+} from "../../service/api/orderService";
 import {
   loadOrderFailure,
   loadOrderRequest,
   loadOrderSuccess,
 } from "../reducers/orderReducer";
+import {
+  orderDetailsFailure,
+  orderDetailsRequest,
+  orderDetailsSuccess,
+} from "../reducers/cartReducer";
 
 function* loadAllOrderSaga(action) {
   try {
@@ -17,6 +24,16 @@ function* loadAllOrderSaga(action) {
   }
 }
 
+function* getOrderSagabyId(action) {
+  try {
+    const orderById = yield call(getOrderDetailsById, action.payload);
+    yield put(orderDetailsSuccess(orderById));
+  } catch (error) {
+    yield put(orderDetailsFailure(error.message));
+  }
+}
+
 export function* orderSagaWatcher() {
-  yield takeEvery(loadOrderRequest, loadAllOrderSaga);
+  yield takeLatest(loadOrderRequest, loadAllOrderSaga);
+  yield takeLatest(orderDetailsRequest, getOrderSagabyId);
 }

@@ -96,12 +96,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <FaRegUserCircle size={36} />
             <div>
-              {token ? (
-                <h5 className="font-semibold">Hello,</h5>
-              ) : (
-                <h5 className="font-semibold">Hello, Guest</h5>
-              )}  
-
+              <h5 className="font-semibold cursor-pointer">Hello, {token ? "user" : "Guest"}</h5>
               <p className="text-gray-500 flex gap-2">
                 <Link href="/login"> Login </Link> /
                 <Link href="/login/register">

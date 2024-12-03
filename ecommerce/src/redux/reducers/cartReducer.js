@@ -2,6 +2,7 @@ const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
   data: [],
+  orderSuccess: [],
   loading: false,
   error: null,
   quantity: 0,
@@ -56,7 +57,26 @@ const cartSlice = createSlice({
         (total, item) => total + item.price * state.quantity,
         0
       );
-      
+    },
+
+    orderDetailsRequest: (state, action) => {
+      console.warn("ORDER REQUEST CURRENT => ", action.payload);
+
+      state.loading = true;
+    },
+
+    orderDetailsSuccess: (state, action) => {
+      console.warn("ORDER SUCCESS Current => ", action.payload);
+
+      state.loading = false;
+      state.orderSuccess = action.payload;
+    },
+
+    orderDetailsFailure: (state, action) => {
+      console.warn("ORDER FAILURE current => ", action.payload);
+
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });
@@ -67,6 +87,9 @@ export const {
   increaseQuantity,
   decreaseQuantity,
   totalPrice,
+  orderDetailsRequest,
+  orderDetailsSuccess,
+  orderDetailsFailure,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

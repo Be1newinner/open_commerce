@@ -22,7 +22,6 @@ const orderSlice = createSlice({
     },
     loadOrderFailure: (state, action) => {
       console.log("ORDER FAILURE => ", action.payload);
-
       state.loading = false;
       state.error = action.payload;
     },
