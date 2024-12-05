@@ -109,10 +109,10 @@ export default function Navbar() {
             <LuArrowDownUp className=" text-2xl" />
             <IoMdHeartEmpty className="text-2xl" />
             <Link href="/cart">
-              <div>
+              <div className="relative">
                 <FaShoppingBag className="text-2xl " />
                 <div>
-                  <h5 className="font-semibold">{items.length}</h5>
+                  <h5 className="font-semibold absolute -top-2 -right-2 text-red-500">{items.length}</h5>
                 </div>
               </div>
             </Link>
