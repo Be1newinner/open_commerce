@@ -91,17 +91,15 @@ export default function ProductList() {
             onClick={handleGrid}
             size={50}
             color="#000"
-            className={`ml-8 cursor-pointer border-2 p-2 ${
-              grid == false ? "border-gray-800" : "border-gray-300"
-            }`}
+            className={`ml-8 cursor-pointer border-2 p-2 ${grid == false ? "border-gray-800" : "border-gray-300"}
+            `}
           />
           <CiGrid2H
             onClick={handleList}
             size={50}
             color="#000"
-            className={`ml-3 cursor-pointer border-2 p-2 ${
-              grid ? "border-gray-800" : "border-gray-300"
-            }`}
+            className={`ml-3 cursor-pointer border-2 p-2 ${grid ? "border-gray-800" : "border-gray-300"}
+            `}
           />
           <span className="ml-3 text-gray-500">
             {productData?.length || 0} Products found
