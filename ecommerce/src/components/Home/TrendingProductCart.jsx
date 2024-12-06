@@ -1,15 +1,16 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import image1 from "../../assets/1.png";
-import image2 from "../../assets/2.png";
-import image3 from "../../assets/3.png";
-import image4 from "../../assets/4.png";
+// import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+// import image1 from "../../assets/1.png";
+// import image2 from "../../assets/2.png";
+// import image3 from "../../assets/3.png";
+// import image4 from "../../assets/4.png";
 import { IoCartOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { loadAllProductRequest } from "@/redux/reducers/productReducer";
 import Link from "next/link";
-import ProductPopup from "./productPopup";
+// import ProductPopup from "./productPopup";
 
 export default function TrendingProductCart() {
   const products = useSelector((state) => state.product.data);
@@ -28,8 +29,8 @@ export default function TrendingProductCart() {
     <>
       {/* {showPopup && <ProductPopup />} */}
       {Array.isArray(products) &&
-        products.map((product) => (
-          <section className="group hover:shadow-lg hover:shadow-gray-400 duration-500 items-center gap-4 border-solid border-2 border-gray-300 rounded-xl w-[24%] max-xl:w-[48%] max-sm:w-full p-2 ">
+        products.map((product, index) => (
+          <section key={index} className="group hover:shadow-lg hover:shadow-gray-400 duration-500 items-center gap-4 border-solid border-2 border-gray-300 rounded-xl w-[24%] max-xl:w-[48%] max-sm:w-full p-2 ">
             <div className="w-full h-[300px] overflow-hidden justify-center items-center flex group-hover:scale-110 duration-500 ease-in-out ">
               <Link href={`/product/${product.sku}`} key={product.id}>
                 <Image src={products.image} alt="" width={150} height={150} />

@@ -1,7 +1,9 @@
 const { User } = require("../models/useModels");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const secretKey = process.env.SECRET_KEY;
+// const secretKey = process.env.SECRET_KEY;
+
+// console.log("ENV", );
 
 const registerUser = async (req, res) => {
   try {
@@ -23,7 +25,9 @@ const registerUser = async (req, res) => {
 
     await newUser.save();
 
-    const token = jwt.sign({ id: newUser._id }, secretKey, { expiresIn: "7d" });
+    const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY, {
+      expiresIn: "7d",
+    });
 
     // localStorage.setItem("token", token);
 
@@ -48,10 +52,9 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: "Invalid password" });
     }
 
-    const token = jwt.sign({ id: user._id }, secretKey, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "7d" });
 
     // localStorage.setItem("token", token);
-
 
     res.status(200).json({ message: "Login successful", token });
   } catch (error) {

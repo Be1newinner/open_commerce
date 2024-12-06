@@ -36,8 +36,8 @@ export default function Category() {
       </section>
       <section>
         <div className="w-[1280px] mx-auto max-xl:w-[90%] max-sm:justify-center max-xl:justify-start max-xl:gap-4 flex flex-wrap justify-between items-center py-10">
-          {Services.map((service) => (  
-            <div className="flex items-center gap-4 bg-gray-100 w-[24%] max-xl:w-[48%] max-sm:w-full py-6 px-10">
+          {Services.map((service, index) => (  
+            <div key={index} className="flex items-center gap-4 bg-gray-100 w-[24%] max-xl:w-[48%] max-sm:w-full py-6 px-10">
               <span className="text-4xl text-blue-800">{service.icon}</span>
               <div>
                 <h1 className="font-semibold">{service.title}</h1>

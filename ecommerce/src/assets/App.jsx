@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaStar } from "react-icons/fa";
 import assets from '../src/assets/image1.jpg'
-
+import Image from 'next/image'
 const App = () => {
   return (
     <>
@@ -14,7 +14,12 @@ const App = () => {
         {
           product.map((data, index) => (
             <div key={index} className='flex w-[30%]'>
-              <img src="https://shofy.botble.com/storage/main/products/product-1-150x150.jpg" alt="prductimg" />
+              <Image 
+                width={100}
+                height={100}
+                src="https://shofy.botble.com/storage/main/products/product-1-150x150.jpg" 
+                alt="prductimg" 
+              />
               <div className=''>
                 <h3 className=' text-slate-500'>{data.company}</h3>
                 <h1 className='font-semibold '>{data.product}</h1>

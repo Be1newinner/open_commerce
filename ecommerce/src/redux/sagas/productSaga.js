@@ -2,15 +2,16 @@ import loadProductService, {
   loadSingleProductService,
 } from "../../service/api/productAPI/productService";
 
-const { call, put, takeEvery } = require("redux-saga/effects");
-const {
+import { call, put, takeEvery } from "redux-saga/effects";
+
+import {
   loadAllProductSuccess,
   loadAllProductFailure,
   loadAllProductRequest,
   loadSingleProductSuccess,
   loadSingleProductFailure,
   loadSingleProductRequest,
-} = require("../reducers/productReducer");
+} from "../reducers/productReducer";
 
 function* loadAllProductSaga(action) {
   try {

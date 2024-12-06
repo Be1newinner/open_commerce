@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  AddCart,
+  // AddCart,
   decreaseQuantity,
   increaseQuantity,
   RemoveCart,
@@ -32,7 +32,7 @@ export default function Cart() {
           {data.map((item) => (
             <div key={item.sku} className="flex items-center max-md:hidden">
               <div className="flex max-sm:flex-wrap">
-                <Image src={image1} className="p-4" width={100} height={100} />
+                <Image src={image1} className="p-4" width={100} height={100} alt={item.name} />
                 <div className="font-medium w-[200px] p-4 max-md:w-1/4">
                   <h1>{item.name}</h1>
                   {item.stock === 0 ? (

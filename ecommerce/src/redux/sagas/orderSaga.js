@@ -1,4 +1,5 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+// import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import loadOrderService, {
   getOrderDetailsById,
 } from "../../service/api/orderService";
@@ -26,6 +27,7 @@ function* loadAllOrderSaga(action) {
 
 function* getOrderSagabyId(action) {
   try {
+    console.log("action.payload => ", action.payload);
     const orderById = yield call(getOrderDetailsById, action.payload);
     yield put(orderDetailsSuccess(orderById));
   } catch (error) {

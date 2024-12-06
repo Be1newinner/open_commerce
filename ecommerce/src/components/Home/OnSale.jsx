@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { FaStar } from "react-icons/fa";
-import assets from "../../assets/product.jpg";
+// import assets from "../../assets/product.jpg";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { loadAllProductRequest } from "@/redux/reducers/productReducer";
@@ -61,84 +61,84 @@ const OnSale = () => {
 
 export default OnSale;
 
-const product = [
-  {
-    image: assets,
-    company: "Old El Paso",
-    product: "BenQ EW3280U 32-Inch 4K HDR Entertainment Monitor(Digital)",
-    rating: 3,
-    reviews: 7,
-    price: 879,
-  },
+// const product = [
+//   {
+//     image: assets,
+//     company: "Old El Paso",
+//     product: "BenQ EW3280U 32-Inch 4K HDR Entertainment Monitor(Digital)",
+//     rating: 3,
+//     reviews: 7,
+//     price: 879,
+//   },
 
-  {
-    image: assets,
-    company: "Stouffer",
-    product: "Sony WH-1000XM4 Wireless Noise-Canceling Headphones",
-    rating: 2,
-    reviews: 9,
-    price: 2396,
-  },
+//   {
+//     image: assets,
+//     company: "Stouffer",
+//     product: "Sony WH-1000XM4 Wireless Noise-Canceling Headphones",
+//     rating: 2,
+//     reviews: 9,
+//     price: 2396,
+//   },
 
-  {
-    image: assets,
-    company: "Global Office",
-    product: "HP Z27k G3 4K USB-C Monitor",
-    rating: 4,
-    reviews: 6,
-    price: 934,
-  },
+//   {
+//     image: assets,
+//     company: "Global Office",
+//     product: "HP Z27k G3 4K USB-C Monitor",
+//     rating: 4,
+//     reviews: 6,
+//     price: 934,
+//   },
 
-  {
-    image: assets,
-    company: "Global Store",
-    product: "Dell UltraSharp U2720Q 27-Inch 4K USB-C Monitor",
-    rating: 3,
-    reviews: 10,
-    price: 238,
-  },
+//   {
+//     image: assets,
+//     company: "Global Store",
+//     product: "Dell UltraSharp U2720Q 27-Inch 4K USB-C Monitor",
+//     rating: 3,
+//     reviews: 10,
+//     price: 238,
+//   },
 
-  {
-    image: assets,
-    company: "GoPro",
-    product: "Apple TV 4K (2nd Generation) (Digital)",
-    rating: 4,
-    reviews: 9,
-    price: 1054,
-  },
-  {
-    image: assets,
-    company: "Stouffer",
-    product: "Sony WH-1000XM4 Wireless Noise-Canceling Headphones",
-    rating: 2,
-    reviews: 9,
-    price: 2396,
-  },
+//   {
+//     image: assets,
+//     company: "GoPro",
+//     product: "Apple TV 4K (2nd Generation) (Digital)",
+//     rating: 4,
+//     reviews: 9,
+//     price: 1054,
+//   },
+//   {
+//     image: assets,
+//     company: "Stouffer",
+//     product: "Sony WH-1000XM4 Wireless Noise-Canceling Headphones",
+//     rating: 2,
+//     reviews: 9,
+//     price: 2396,
+//   },
 
-  {
-    image: assets,
-    company: "Global Office",
-    product: "HP Z27k G3 4K USB-C Monitor",
-    rating: 4,
-    reviews: 6,
-    price: 934,
-  },
+//   {
+//     image: assets,
+//     company: "Global Office",
+//     product: "HP Z27k G3 4K USB-C Monitor",
+//     rating: 4,
+//     reviews: 6,
+//     price: 934,
+//   },
 
-  {
-    image: assets,
-    company: "Roberts Store",
-    product: "Sony A90J 4K OLED Smart TV",
-    rating: 4,
-    reviews: 8,
-    price: 45,
-  },
+//   {
+//     image: assets,
+//     company: "Roberts Store",
+//     product: "Sony A90J 4K OLED Smart TV",
+//     rating: 4,
+//     reviews: 8,
+//     price: 45,
+//   },
 
-  {
-    image: assets,
-    company: "Yound Shop",
-    product: "Samsung QN90A Neo QLED 4K Smart TV (Digital)",
-    rating: 4,
-    reviews: 4,
-    price: 1420,
-  },
-];
+//   {
+//     image: assets,
+//     company: "Yound Shop",
+//     product: "Samsung QN90A Neo QLED 4K Smart TV (Digital)",
+//     rating: 4,
+//     reviews: 4,
+//     price: 1420,
+//   },
+// ];

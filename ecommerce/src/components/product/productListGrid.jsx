@@ -7,7 +7,8 @@ import Link from "next/link";
 
 export default function ProductListGrid() {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(6);
+  // const [limit, setLimit] = useState(6);
+  const limit = 6;
 
   const ProductData = useSelector((state) => state.product.data);
   const products = ProductData.slice((page - 1) * limit, page * limit);
