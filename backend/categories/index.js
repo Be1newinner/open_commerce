@@ -4,7 +4,7 @@ const express = require("express");
 const connectDB = require("./src/config/db");
 const routes = require("./src/router/router");
 
-const PORT = 3003;
+const PORT = 3002;
 const app = express();
 app.use(express.json());
 connectDB();

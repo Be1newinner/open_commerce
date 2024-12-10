@@ -32,7 +32,7 @@ app.all("/", (req, res) => {
 
 app.use("/api", routes);
 
-const PORT = 3001;
+const PORT = 3004;
 
 app.listen(process.env.PORT || PORT, () => {
   console.log("Server started on port", process.env.PORT || PORT);

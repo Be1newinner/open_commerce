@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import connectToDB from './utils/db.js'
 
 const app = express();
-
+const PORT = 3001;
 // Connect to DB
 connectToDB();
 
@@ -35,6 +35,6 @@ app.get('/', (_, res) => {
 })
 
 // Server
-app.listen(process.env.PORT || 3006, () => {
-    console.log(`⚙️  Server is listening on port ${process.env.PORT || 3004}`)
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`⚙️  Server is listening on port ${process.env.PORT || PORT}`)
 })
