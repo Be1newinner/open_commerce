@@ -1,12 +1,12 @@
 {
   "name": "categories-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "warn": "node --trace-warnings index.js",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
