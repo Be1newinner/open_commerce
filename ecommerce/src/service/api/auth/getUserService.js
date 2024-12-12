@@ -1,7 +1,7 @@
 export default async function loadUserService(token) {
   try {
     const response = await fetch(
-      `http://localhost:3002/api/login?token=${token}`,
+      `http://localhost:3006/api/login?token=${token}`,
       {
         method: "GET",
         headers: {

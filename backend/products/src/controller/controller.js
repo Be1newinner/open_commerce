@@ -14,20 +14,18 @@ const upload = multer({
 
 const createProduct = async (req, res) => {
   try {
-    const s3Urls = await Promise.all(
-      req.files.map(async (file) => {
-        const s3Key = `sofy/products/${uuidv4()}${path.extname(
-          file.originalname
-        )}`;
-        await uploadFile(file.buffer.toString("base64"), s3Key);
-
-        return `https://aws-ap-south-1-008971631073-shipsar-demo-pipe.s3.ap-south-1.amazonaws.com/${s3Key}`;
-      })
-    );
-
     if (!req.file || req.file.length === 0) {
       return res.status(400).json({ message: "No image file uploaded." });
     }
+    const s3Key = `sofy/products/${uuidv4()}${path.extname(
+      req.file.originalname
+    )}`;
+
+    // Upload the file to S3
+    await uploadFile(req.file.buffer.toString("base64"), s3Key);
+
+    // Construct the S3 URL
+    let s3Url = `https://aws-ap-south-1-008971631073-shipsar-demo-pipe.s3.ap-south-1.amazonaws.com/${s3Key}`;
 
     const product = new Product({
       sku: req.body.sku,
@@ -35,7 +33,7 @@ const createProduct = async (req, res) => {
       description: req.body.description,
       price: req.body.price,
       stock: req.body.stock,
-      image: s3Urls,
+      image: s3Url,
       category: req.body.category,
       store: req.body.store,
       reviews: req.body.reviews,

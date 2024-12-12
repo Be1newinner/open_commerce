@@ -1,7 +1,7 @@
 export default async function loadOrderService(data) {
   // console.log("Data => ", data);
 
-  const response = await fetch("http://localhost:3005/api/order", {
+  const response = await fetch("http://localhost:3003/api/order", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -14,7 +14,7 @@ export default async function loadOrderService(data) {
 }
 
 export async function getOrderDetailsById(id) {
-  const response = await fetch(`http://localhost:3005/api/order/${id}`);
+  const response = await fetch(`http://localhost:3003/api/order/${id}`);
   const res = await response.json();
   console.log("response orderdetails by id is => ", res);
   return res;

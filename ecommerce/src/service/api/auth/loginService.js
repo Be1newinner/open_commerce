@@ -2,7 +2,7 @@ export default async function loginService(data) {
   console.log("Login Data => ", data);
 
   try {
-    const response = await fetch("http://localhost:3004/api/login", {
+    const response = await fetch("http://localhost:3006/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
