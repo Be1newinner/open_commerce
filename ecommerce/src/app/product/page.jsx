@@ -18,7 +18,8 @@ export default function ProductList() {
 
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.product.data);
-
+  
+  // console.log("product :",productData);
 
   useEffect(() => {
     dispatch(loadAllProductRequest());
@@ -33,7 +34,7 @@ export default function ProductList() {
   const renderStars = (rating) => {
     const stars = [];
     const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
+    const hasHalfStar = rating % 1 >= 0.5;
 
     // Full stars
     for (let i = 0; i < fullStars; i++) {
@@ -44,7 +45,6 @@ export default function ProductList() {
         />
       );
     }
-
     // Half star
     if (hasHalfStar) {
       stars.push(
@@ -54,7 +54,6 @@ export default function ProductList() {
         />
       );
     }
-
     // Empty stars
     const emptyStars = 5 - stars.length;
     for (let i = 0; i < emptyStars; i++) {
@@ -120,7 +119,7 @@ export default function ProductList() {
               className="py-3 w-full px-2 focus:outline-none"
               name="sort"
               id="sort"
-              defaultValue={"24"}
+              defaultValue={"12"}
             >
               <option value="12">12</option>
               <option value="24">24</option>
@@ -137,23 +136,24 @@ export default function ProductList() {
             Array.isArray(productData) && productData?.map((product) => (
               <div
                 key={product.sku}
-                className="mb-4 bg-white shadow-lg rounded-lg overflow-hidden"
+                className="mb-4 bg-white border border-gray-200 shadow-lg rounded-lg overflow-hidden"
               >
-                <div className="p-6">
-                  <div className="flex flex-col md:flex-row gap-6">
+                <div className="p-4">
+                  <div className="flex flex-col md:flex-row gap-8">
                     <div className="w-full md:w-1/3">
-                      <div className="aspect-square justify-center flex items-center relative bg-gray-50 rounded-lg overflow-hidden">
+                      <div className="w-full h-auto aspect-square flex justify-center items-center bg-gray-50 rounded-lg overflow-hidden">
                         <Link href={`/product/${product.sku}`}>
                           <Image
                             src={product.image || image1}
                             alt={product.name || "Product Image"}
-                            width={200}
-                            height={200}
+                            width={500}
+                            height={500}
+                            className="w-full h-full object-cover rounded-lg"
                           />
                         </Link>
                       </div>
                     </div>
-                    <div className="w-full md:w-2/3">
+                    <div className="w-full md:w-1/2 flex flex-col justify-center">
                       <div className="text-sm text-gray-600 mb-2">
                         {product.store}
                       </div>
@@ -167,7 +167,7 @@ export default function ProductList() {
                           {renderStars(product.rating)}
                         </div>
                         <span className="text-sm text-gray-600">
-                          ({product.reviews} reviews)
+                          ({product.rating} rating)
                         </span>
                       </div>
                       <div className="text-xl font-bold text-blue-600 mb-4">

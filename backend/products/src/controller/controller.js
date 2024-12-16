@@ -43,7 +43,7 @@ const createProduct = async (req, res) => {
     });
 
     // console.log("Data is: ", data);
-
+    
     // if (data.uploaded) {
     //   return res
     //     .status(201)

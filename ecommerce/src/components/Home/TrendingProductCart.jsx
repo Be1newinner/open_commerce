@@ -14,6 +14,7 @@ import Link from "next/link";
 
 export default function TrendingProductCart() {
   const products = useSelector((state) => state.product.data);
+  console.log("Image : ", products);
   const dispatch = useDispatch();
   // const [showPopup, setShowPopup] = useState(false);
 
@@ -31,9 +32,9 @@ export default function TrendingProductCart() {
       {Array.isArray(products) &&
         products.map((product, index) => (
           <section key={index} className="group hover:shadow-lg hover:shadow-gray-400 duration-500 items-center gap-4 border-solid border-2 border-gray-300 rounded-xl w-[24%] max-xl:w-[48%] max-sm:w-full p-2 ">
-            <div className="w-full h-[300px] overflow-hidden justify-center items-center flex group-hover:scale-110 duration-500 ease-in-out ">
+            <div className="w-full h-[300px] p-2 overflow-hidden justify-center items-center flex group-hover:scale-110 duration-500 ease-in-out ">
               <Link href={`/product/${product.sku}`} key={product.id}>
-                <Image src={products.image} alt="" width={150} height={150} />
+                <Image src={product.image} alt="" width={500} height={500} className="rounded-lg" />
               </Link>
               <h1
                 // onClick={handleShowPopup}
@@ -55,15 +56,15 @@ export default function TrendingProductCart() {
                   <span
                     key={index}
                     className={`text-xl ${
-                      index < product.rating
+                      index < Math.round(product.rating)
                         ? "text-yellow-500"
                         : "text-gray-300"
                     }`}
                   >
                     ★
-                  </span>
-                  
+                  </span>                  
                 ))}
+                <span className="pl-2 pt-0.5">{product.rating} rating</span>
               </div>
               <span className="text-xl font-semibold text-blue-800">
                 ${product.price}
