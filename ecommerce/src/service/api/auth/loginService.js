@@ -2,11 +2,11 @@ export default async function loginService(data) {
   console.log("Login Data => ", data);
 
   try {
-    const response = await fetch("http://localhost:3002/api/login", {
+    const response = await fetch("http://localhost:3006/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDU3NzUxODliMTBjZjI5ZDMwOTE0ZCIsImlhdCI6MTczMjYwNTg2NCwiZXhwIjoxNzMzMjEwNjY0fQ.BPRP87l1CvQ3xjJqFIvia4l08sHeuXDYRB5zP291XOA`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTJmYzk0ZWVhNTJjOWQ2NDNkZDU0NiIsImlhdCI6MTczMzQ5MTkxMiwiZXhwIjoxNzM0MDk2NzEyfQ.bvqCscRRPqVmpaalZo2_5-LcFjSTB_IB6C6zb1AyoSw`,
       },
       body: JSON.stringify(data),
     });

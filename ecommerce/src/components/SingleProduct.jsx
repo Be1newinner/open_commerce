@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { BiHeart, BiMinus, BiPlus } from "react-icons/bi";
+import React, { useState } from "react";
+// import { BiHeart, BiMinus, BiPlus } from "react-icons/bi";
+import { BiMinus, BiPlus } from "react-icons/bi";
 import { CgShoppingCart } from "react-icons/cg";
 import Image from "next/image";
 import image1 from "@/assets/1.png";
@@ -75,6 +76,8 @@ function SingleProduct({ product, quantity }) {
   //   setProduct(mockProduct);
   // };
 
+  const dispatch = useDispatch();
+
   if (!product) {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-100">
@@ -82,8 +85,6 @@ function SingleProduct({ product, quantity }) {
       </div>
     );
   }
-
-  const dispatch = useDispatch();
 
   const handleAddToCart = (product) => {
     dispatch(AddCart(product));
@@ -338,7 +339,7 @@ function SingleProduct({ product, quantity }) {
                       S Pen is a bundle of writing instruments in one. Its
                       natural grip, low latency and impressive pressure
                       sensitivity will make it your go-to for everything from
-                      drawing to editing documents. And S Pen won't get
+                      drawing to editing documents. And S Pen won&apos;t get
                       misplaced thanks.
                     </p>
                   </div>

@@ -1,13 +1,19 @@
 "use client";
 import { orderDetailsRequest } from "@/redux/reducers/cartReducer";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useParams } from "next/router";
+// import { useParams } from "next/router";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Suspense } from "react";
 
 const OrderConfirmation = () => {
-  
-  const { id } = useSearchParams();
+
+  // const { id } = useSearchParams();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  console.log("Search : ", id);
+
   const { data, orderSuccess, quantity, totalPrice } = useSelector(
     (state) => state.cart
   );
@@ -17,19 +23,18 @@ const OrderConfirmation = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(orderDetailsRequest(id));
+    if (id) dispatch(orderDetailsRequest(id));
   }, [dispatch, id]);
-
-  // const dispatch = useDispatch();
 
   const orderData = {
     orderNumber: "#10000053",
+    quantity: quantity,
     customer: {
-      fullName: "Chand",
-      phone: "32423232323",
-      email: "chand@gmail.com",
-      paymentMethod: "Cash on delivery (COD)",
-      paymentStatus: "PENDING",
+      fullName: "",
+      phone: "",
+      email: "",
+      paymentMethod: "",
+      paymentStatus: "",
     },
     pricing: {
       subtotal: totalPrice,
@@ -44,7 +49,7 @@ const OrderConfirmation = () => {
 
   return (
     <div className="bg-gray-100 py-8 px-4">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 md:p-8">
+      {id && <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 md:p-8">
         <div className="text-center mb-6">
           <h2 className="text-xl font-bold text-green-600">
             Your order is successfully placed
@@ -85,8 +90,8 @@ const OrderConfirmation = () => {
           </div>
 
           {/* Order Summary */}
-          {data.map((product) => (
-            <div className="flex-1">
+          {data.map((product, index) => (
+            <div key={index} className="flex-1">
               <h3 className="text-lg font-bold mb-4">Order Summary</h3>
               <div className="bg-gray-50 border rounded-lg p-4 space-y-4">
                 <div className="flex justify-between items-center">
@@ -94,7 +99,9 @@ const OrderConfirmation = () => {
                   <p>{orderNumber}</p>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <img
+                  <Image
+                    width={100}
+                    height={100}
                     src={product.image}
                     alt={product.name}
                     className="w-16 h-16 object-cover rounded"
@@ -142,10 +149,19 @@ const OrderConfirmation = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div>}
     </div>
   );
 };
 
-export default OrderConfirmation;
+const Order = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OrderConfirmation />
+    </Suspense>
+  );
+}
 
+export default Order;
+
+// export default OrderConfirmation;

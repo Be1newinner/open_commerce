@@ -122,7 +122,7 @@ export default function Login() {
                   {token && <p className="text-green-500">Login Success</p>}
                 </form>
                 <div className="flex justify-center mt-4">
-                  <span className="">Don't have an account?</span>
+                  <span className="">Don&apos;t have an account?</span>
                   <Link href="/login/register" className="ml-2 text-blue-700">
                     Register Now
                   </Link>

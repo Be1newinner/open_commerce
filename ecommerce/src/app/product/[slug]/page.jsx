@@ -1,5 +1,6 @@
 "use client";
-import React, { use, useEffect } from "react";
+// import React, { use, useEffect } from "react";
+import React, { useEffect } from "react";
 import SingleProduct from "../../../components/SingleProduct";
 import { useDispatch, useSelector } from "react-redux";
 import {  loadSingleProductRequest } from "@/redux/reducers/productReducer";

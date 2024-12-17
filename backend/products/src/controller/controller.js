@@ -3,31 +3,52 @@ const { Product } = require("../models/useModels");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const { uploadFile } = require("../config/s3url");
+const uploadFile = require("../utils/uploadFirebase");
 
 const upload = multer({
-  limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB
-  },
-  storage: multer.memoryStorage(),
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "uploads/products");
+    },
+  }),
 });
 
 const createProduct = async (req, res) => {
   try {
-    const s3Urls = await Promise.all(
-      req.files.map(async (file) => {
-        const s3Key = `sofy/products/${uuidv4()}${path.extname(
-          file.originalname
-        )}`;
-        await uploadFile(file.buffer.toString("base64"), s3Key);
-
-        return `https://aws-ap-south-1-008971631073-shipsar-demo-pipe.s3.ap-south-1.amazonaws.com/${s3Key}`;
-      })
-    );
+    const filePath = req.file;
 
     if (!req.file || req.file.length === 0) {
       return res.status(400).json({ message: "No image file uploaded." });
     }
+
+    // const s3Key = `sofy/products/${uuidv4()}${path.extname(
+    //   req.file.originalname
+    // )}`;
+
+    // // Upload the file to S3
+    // await uploadFile(req.file.buffer.toString("base64"), s3Key);
+
+    // // Construct the S3 URL
+    // let s3Url = `https://aws-ap-south-1-008971631073-shipsar-demo-pipe.s3.ap-south-1.amazonaws.com/${s3Key}`;
+
+    // Upload the file to Firestorage
+    const data = await uploadFile(filePath);
+
+    fs.unlink(filePath.path, (err) => {
+      if (err) {
+        console.error("Error deleting file:", err);
+      } else {
+        console.log("Local file deleted successfully");
+      }
+    });
+
+    // console.log("Data is: ", data);
+    
+    // if (data.uploaded) {
+    //   return res
+    //     .status(201)
+    //     .json({ message: "Document created successfully", ...data });
+    // }
 
     const product = new Product({
       sku: req.body.sku,
@@ -35,7 +56,7 @@ const createProduct = async (req, res) => {
       description: req.body.description,
       price: req.body.price,
       stock: req.body.stock,
-      image: s3Urls,
+      image: data?.url,
       category: req.body.category,
       store: req.body.store,
       reviews: req.body.reviews,

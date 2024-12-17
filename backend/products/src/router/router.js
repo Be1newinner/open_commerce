@@ -9,7 +9,7 @@ const {
 } = require("../controller/controller");
 const router = express.Router();
 
-router.post("/product", upload.array("image"), createProduct);
+router.post("/product", upload.single("image"), createProduct);
 router.get("/product", getAllProducts);
 router.get("/product/:sku", getProductBySku);
 router.patch("/product/:id", updateProduct);

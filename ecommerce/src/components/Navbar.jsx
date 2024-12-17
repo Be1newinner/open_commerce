@@ -31,9 +31,10 @@ export default function Navbar() {
   const [showCategories, setShowCategories] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const items = useSelector((state) => state.cart.data);
-  const { token, data } = useSelector((state) => state.auth);
+  // const { token, data } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
-  console.log("user data is => ", data, token);
+  // console.log("user data is => ", data, token);
 
   const handleMenu = () => {
     setShowMenu(true);
@@ -70,7 +71,7 @@ export default function Navbar() {
           <VscThreeBars size={30} />
         </div>
 
-        <div className="max-w-[500px] max-lg:hidden border-solid border-2 border-blue-800 flex   ">
+        <div className="max-w-[500px] max-lg:hidden border-solid border-2 border-blue-800 flex rounded">
           <input
             className="p-2 outline-none"
             type="text"
@@ -109,10 +110,10 @@ export default function Navbar() {
             <LuArrowDownUp className=" text-2xl" />
             <IoMdHeartEmpty className="text-2xl" />
             <Link href="/cart">
-              <div>
+              <div className="relative">
                 <FaShoppingBag className="text-2xl " />
                 <div>
-                  <h5 className="font-semibold">{items.length}</h5>
+                  <h5 className="font-semibold absolute -top-2 -right-2 text-red-500">{items.length}</h5>
                 </div>
               </div>
             </Link>
@@ -120,7 +121,7 @@ export default function Navbar() {
         </div>
       </div>
       <hr />
-      <div className="w-[1280px] mx-auto max-xl:w-[90%] max-lg:mx-0 max-md:hidden flex">
+      <div className="w-full flex mx-auto max-xl:w-[90%] max-lg:mx-0 max-md:hidden">
         <div className="relative flex gap-10 font-[600] w-[1280px] mx-auto max-xl:w-[90%] items-center">
           {/* Dropdown Trigger */}
           <h1 className=" cursor-pointer group z-50  relative">
@@ -143,19 +144,24 @@ export default function Navbar() {
             </div>
           </h1>
 
-          <h1 className="ml-4 cursor-pointer">Home</h1>
+          <Link href="/">
+            <h1 className="ml-4 px-4 py-3 cursor-pointer rounded-lg hover:text-white hover:bg-blue-800">Home</h1>
+          </Link>
           <Link href="/product">
-            <h1 className=" cursor-pointer group z-50  relative">Shop</h1>
+            <h1 className="px-4 py-3 z-50 relative cursor-pointer group rounded-lg hover:text-white hover:bg-blue-800">Shop</h1>
           </Link>
         </div>
-        <div className="flex items-center w-[200px] gap-2 max-lg:hidden">
-          <FiPhoneCall size={24} color="blue" />
-          <div>
-            <p className="font-semibold text-sm">Hotline:</p>
-            <span className="text-sm">123-456-7890</span>
+        <Link href="tel:123-456-7890" className="group flex items-center justify-center">
+          <div className="w-max px-1 flex items-center max-lg:hidden">
+            <FiPhoneCall className="text-lg group-hover:text-blue-800" />
+            <div className="flex justify-center items-center">
+              {/* <p className="font-semibold text-sm">Hotline:</p> */}
+              <span className="pl-2 text-base group-hover:text-blue-800 group-hover:font-semibold">: 123-456-7890</span>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
+      <hr />
 
       {/* Mobile Menu */}
       {showMenu && (

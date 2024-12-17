@@ -1,10 +1,12 @@
 {
   "name": "categories-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "warn": "node --trace-warnings index.js",
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,7 @@
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.2",
+    "morgan": "^1.10.0",
     "nodemon": "^3.1.7"
   }
 }

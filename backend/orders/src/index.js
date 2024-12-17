@@ -1,13 +1,13 @@
 require("dotenv").config();
 
 const express = require("express");
-const { connectDB } = require("./src/config/db");
-const { router } = require("./src/router/router");
+const { connectDB } = require("./config/db");
+const { router } = require("./router/router");
 const cors = require("cors");
 
 const app = express();
 
-const PORT = 3005;
+const PORT = 3003;
 app.use(express.json());
 app.use(
   cors({

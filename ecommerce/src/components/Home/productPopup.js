@@ -1,12 +1,13 @@
-import { AddCart } from "@/redux/reducers/cartReducer";
+// import { AddCart } from "@/redux/reducers/cartReducer";
 import { loadSingleProductRequest } from "@/redux/reducers/productReducer";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const ProductPopup = () => {
   const slug = useParams.slug;
-  const ProductDetails = useSelector((state) => state.product.data);
+  // const ProductDetails = useSelector((state) => state.product.data);
   const quantity = useSelector((state) => state.cart.quantity);
   const dispatch = useDispatch();
 

@@ -1,9 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Lock } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadOrderRequest } from "@/redux/reducers/orderReducer";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Checkout = () => {
   const cartItems = useSelector((state) => state.cart.data);
@@ -175,7 +177,9 @@ const Checkout = () => {
               <div className="space-y-4 mb-6">
                 {cartItems.map((item, index) => (
                   <div key={index} className="flex gap-4">
-                    <img
+                    <Image
+                      width={100}
+                      height={100}
                       src={item.image}
                       alt={item.name}
                       className="w-20 h-16 object-cover rounded"
