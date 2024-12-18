@@ -1,7 +1,3 @@
-Apologies for missing the routes section. Here’s the updated README with the **Routes** section added for each core module:
-
----
-
 # Open Source E-Commerce Backend
 
 Welcome to the **Open Source E-Commerce Backend Project**! This repository provides a highly modular, scalable, and customizable backend solution for building e-commerce platforms. Developers can use this as a starting point for their projects and contribute to its continuous improvement.
@@ -312,7 +308,3 @@ Example for **NestJS Monolithic Backend**:
 This project is licensed under the
 
  MIT License - see the [LICENSE](LICENSE) file for details.
-
---- 
-
-This should now provide a complete overview of the routes for each key module in your e-commerce backend. Let me know if you'd like to add anything else!
