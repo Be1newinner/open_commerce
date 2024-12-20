@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, BackgroundTasks
 from app.models.user import UserCreate, UserInDB, UserRole
 from app.utils.hashing import hash_password, verify_password
 from app.utils.jwt_handler import create_access_token, verify_token
-from app.config import ACCESS_TOKEN_EXPIRE_MINUTES
+from app.config import ACCESS_TOKEN_EXPIRE_MINUTES, SERVER_DOMAIN
 from pydantic import BaseModel
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
@@ -10,11 +10,12 @@ from app.config import db
 # from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from app.utils.serialize_mongo_document import serialize_mongo_document
+from app.utils.email import send_email, forgot_password_email_send
+from app.utils.standard_response import StandardResponse, ResponseType
 
 router = APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-
 
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserInDB:
     try:
@@ -31,7 +32,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserInDB:
             )
         return response
     except Exception as e:
-        print(e)
         raise HTTPException(status_code=401, detail="Could not validate credentials")
 
 def get_current_user_role(user: UserInDB = Depends(get_current_user)) -> str:
@@ -44,7 +44,6 @@ async def get_all_users(current_user_role: str = Depends(get_current_user_role))
     else:
         users = await db["users"].find().to_list(10)
         serialized_users = [serialize_mongo_document(user) for user in users]
-        print(serialized_users)
         return serialized_users
         
 @router.post("/")
@@ -72,3 +71,25 @@ async def login(form_data: LoginRequest):
         data={"email": user["email"], "role":user["role"]}, expires_delta=ACCESS_TOKEN_EXPIRE_MINUTES)
     return {"access_token": token, "token_type": "bearer"}
 
+class ForgotPasswordInputs(BaseModel):
+    email: str
+
+
+@router.post("/forgot-password")
+async def forgot_password(form_inputs: ForgotPasswordInputs, background_tasks: BackgroundTasks):
+    data = await db["users"].find_one({"email": form_inputs.email})
+    if not data:
+        raise HTTPException(status_code=404, detail="user not found")
+    
+    #Generate the token
+    reset_token = create_access_token(data={"email":form_inputs.email})
+    
+    #send email
+    reset_link = f"{SERVER_DOMAIN}/auth/reset-password?token={reset_token}"
+    background_tasks.add_task(forgot_password_email_send, form_inputs.email, reset_link)
+    
+    response = StandardResponse(
+        data={form_inputs.email},
+        status=ResponseType.SUCCESS
+    )
+    return JSONResponse(content=response.model_dump())
