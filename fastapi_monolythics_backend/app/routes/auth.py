@@ -37,7 +37,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserInDB:
 def get_current_user_role(user: UserInDB = Depends(get_current_user)) -> str:
     return user.role
 
-@router.get("/")
+@router.get("/list-users")
 async def get_all_users(current_user_role: str = Depends(get_current_user_role)):
     if current_user_role != "admin":
         raise HTTPException(status_code=403,detail="You are not authorised")
@@ -46,7 +46,7 @@ async def get_all_users(current_user_role: str = Depends(get_current_user_role))
         serialized_users = [serialize_mongo_document(user) for user in users]
         return serialized_users
         
-@router.post("/")
+@router.post("/signup")
 async def signup(user: UserCreate):
     existing_user = await db["users"].find_one({"email": user.email})
     if existing_user:

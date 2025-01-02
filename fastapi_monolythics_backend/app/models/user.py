@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr
 from enum import Enum
-from bson import ObjectId
+# from bson import ObjectId
 
 # Define roles as Enum for scalability
 class UserRole(str, Enum):

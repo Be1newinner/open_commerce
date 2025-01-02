@@ -1,14 +1,13 @@
 from fastapi import FastAPI, HTTPException, Request
-from app.routes import auth
+from app.routes import auth, products
 from fastapi.responses import JSONResponse
 from app.utils.standard_response import StandardResponse
 
 app = FastAPI()
 
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
+app.include_router(products.router, prefix="/products", tags=["Products"])
   
-
-
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request:Request, exc:HTTPException):
     """
