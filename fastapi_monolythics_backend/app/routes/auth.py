@@ -1,25 +1,28 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, BackgroundTasks
 from app.models.user import UserCreate, UserInDB, UserRole
 from app.utils.hashing import hash_password, verify_password
 from app.utils.jwt_handler import create_access_token, verify_token
-from app.config import ACCESS_TOKEN_EXPIRE_MINUTES
+from app.config import ACCESS_TOKEN_EXPIRE_MINUTES, SERVER_DOMAIN
 from pydantic import BaseModel
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from app.config import db
-# from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from app.utils.serialize_mongo_document import serialize_mongo_document
+from app.utils.email import forgot_password_email_send
+from app.utils.standard_response import StandardResponse, ResponseType
+from app.constants.db_collections import COLLECTIONS
 
 router = APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
+USER_COLLECTION = COLLECTIONS.USERS.value
 
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserInDB:
     try:
         payload = verify_token(token)
-        user = await db["users"].find_one({"email":payload["email"]})    
+        user = await db[USER_COLLECTION].find_one({"email":payload["email"]})    
         if user is None:
             raise HTTPException(status_code=401, detail="Invalid Credentials")
         serialised_user = serialize_mongo_document(user)
@@ -31,31 +34,29 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserInDB:
             )
         return response
     except Exception as e:
-        print(e)
         raise HTTPException(status_code=401, detail="Could not validate credentials")
 
 def get_current_user_role(user: UserInDB = Depends(get_current_user)) -> str:
     return user.role
 
-@router.get("/")
+@router.get("/list-users")
 async def get_all_users(current_user_role: str = Depends(get_current_user_role)):
     if current_user_role != "admin":
         raise HTTPException(status_code=403,detail="You are not authorised")
     else:
-        users = await db["users"].find().to_list(10)
+        users = await db[USER_COLLECTION].find().to_list(10)
         serialized_users = [serialize_mongo_document(user) for user in users]
-        print(serialized_users)
         return serialized_users
         
-@router.post("/")
+@router.post("/signup")
 async def signup(user: UserCreate):
-    existing_user = await db["users"].find_one({"email": user.email})
+    existing_user = await db[USER_COLLECTION].find_one({"email": user.email})
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     
     user_data = user.dict()
     user_data["password"] = hash_password(user.password)
-    await db["users"].insert_one(user_data)
+    await db[USER_COLLECTION].insert_one(user_data)
     return {"msg":"User Created Successfully!"}
 
 class LoginRequest(BaseModel):
@@ -64,7 +65,7 @@ class LoginRequest(BaseModel):
 
 @router.post("/login")
 async def login(form_data: LoginRequest):
-    user = await db["users"].find_one({"email": form_data.email})
+    user = await db[USER_COLLECTION].find_one({"email": form_data.email})
     if not user or not verify_password(form_data.password, user["password"]):
         raise HTTPException(status_code=400, detail="Invalid Credentials")
     
@@ -72,3 +73,25 @@ async def login(form_data: LoginRequest):
         data={"email": user["email"], "role":user["role"]}, expires_delta=ACCESS_TOKEN_EXPIRE_MINUTES)
     return {"access_token": token, "token_type": "bearer"}
 
+class ForgotPasswordInputs(BaseModel):
+    email: str
+
+
+@router.post("/forgot-password")
+async def forgot_password(form_inputs: ForgotPasswordInputs, background_tasks: BackgroundTasks):
+    data = await db[USER_COLLECTION].find_one({"email": form_inputs.email})
+    if not data:
+        raise HTTPException(status_code=404, detail="user not found")
+    
+    #Generate the token
+    reset_token = create_access_token(data={"email":form_inputs.email})
+    
+    #send email
+    reset_link = f"{SERVER_DOMAIN}/auth/reset-password?token={reset_token}"
+    background_tasks.add_task(forgot_password_email_send, form_inputs.email, reset_link)
+    
+    response = StandardResponse(
+        data={form_inputs.email},
+        status=ResponseType.SUCCESS
+    )
+    return JSONResponse(content=response.model_dump())
