@@ -50,7 +50,7 @@ async def get_product(product_id: str):
 async def add_product(new_product: productBase):
     try:
       response = await db[PRODUCTS_COLLECTION].insert_one(new_product)
-      print(response)
+    #   print(response)
       response = StandardResponse(
           status=ResponseType.SUCCESS,
           data=new_product,
