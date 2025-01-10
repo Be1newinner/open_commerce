@@ -1,10 +1,11 @@
 from pydantic import BaseModel
-from app.config import products_collections
+from app.models import ProductModel
 from app.utils import StandardSuccessResponse, StandardErrorResponse
 from bson import ObjectId
 from pymongo.errors import PyMongoError
 from functools import wraps
 from datetime import datetime
+
 
 def handle_exceptions(func):
     """
@@ -58,16 +59,16 @@ class ProductServices(BaseModel):
         """
         if not product:
             return None
-        
+
         def to_iso(value):
             return value.isoformat() if isinstance(value, datetime) else None
 
         return {
-        "_id": str(product.get("_id")),
-        "category_id": str(product.get("category_id", "")),
-        "sub_category_id": str(product.get("sub_category_id", "")),
-        "created_at": to_iso(product.get("created_at")),
-        "updated_at": to_iso(product.get("updated_at")),
+            "_id": str(product.get("_id")),
+            "category_id": str(product.get("category_id", "")),
+            "sub_category_id": str(product.get("sub_category_id", "")),
+            "created_at": to_iso(product.get("created_at")),
+            "updated_at": to_iso(product.get("updated_at")),
             **{
                 k: product.get(k)
                 for k in product
@@ -75,38 +76,23 @@ class ProductServices(BaseModel):
             },
         }
 
-    def __fetch_product(self, filter_query: dict, projection: dict):
-        """
-        Fetch a single product by filter query and projection.
-        """
-        product = products_collections.find_one(filter_query, projection)
-        if product and "reviews" in product:
-            product["reviews"] = [
-                {**review, "reviewer_id": str(review.get("reviewer_id", ""))}
-                for review in product.get("reviews", [])
-            ]
-        return product
-
     @handle_exceptions
-    def get_all_products(self, page: int = 1):
+    def get_all_products(self, page: int = 1, limit: int = 5):
         """
         Fetch all products with pagination.
         """
-        limit_per_response = 5
-        cursor = (
-            products_collections.find({}, self.__all_products_projection)
-            .limit(limit_per_response)
-            .skip(limit_per_response * (page - 1))
+        filters = {}
+        products = ProductModel.get_all(
+            filters=filters, projection=self.__all_products_projection, limit=limit, page=page
         )
-        products = [self.__serialize_product(product) for product in cursor]
-        total_products = products_collections.count_documents({})
+        total_products = ProductModel.get_all(filters).count()
 
         return StandardSuccessResponse(
-            data=products,
+            data=[self.__serialize_product(product) for product in products],
             message="Products retrieved successfully!",
             meta={
                 "page": page,
-                "limit": limit_per_response,
+                "limit": limit,
                 "total_products": total_products,
                 "products_in_response": len(products),
             },
@@ -117,9 +103,7 @@ class ProductServices(BaseModel):
         """
         Fetch a product by its ID.
         """
-        product = self.__fetch_product(
-            {"_id": ObjectId(product_id)}, self.__detailed_product_projection
-        )
+        product = ProductModel.get_by_id(product_id, self.__detailed_product_projection)
         if not product:
             return StandardErrorResponse(message="Product not found", status_code=404, code=40004)
         
@@ -133,16 +117,57 @@ class ProductServices(BaseModel):
         """
         Fetch a product by SKU.
         """
-        product = self.__fetch_product(
-            {"sku": {
-                "$regex": f"^{sku}$",
-                "$options": "i"
-                }}, self.__detailed_product_projection
-        )
+        product = ProductModel.get_by_sku(sku, self.__detailed_product_projection)
         if not product:
             return StandardErrorResponse(message="Product not found", status_code=404, code=40004)
 
         return StandardSuccessResponse(
             data=self.__serialize_product(product),
             message="Product retrieved successfully!",
+        )
+
+    @handle_exceptions
+    def create_product(self, product_data: dict):
+        """
+        Create a new product.
+        """
+        product_data["created_at"] = datetime.now(datetime.timezone.utc)
+        product_data["updated_at"] = datetime.now(datetime.timezone.utc)
+        result = ProductModel.insert(product_data)
+
+        return StandardSuccessResponse(
+            data={"product_id": str(result.inserted_id)},
+            message="Product created successfully!",
+            status_code=201
+        )
+
+    @handle_exceptions
+    def update_product(self, product_id: str, update_data: dict):
+        """
+        Update an existing product by ID.
+        """
+        update_data["updated_at"] = datetime.now(datetime.timezone.utc)
+        result = ProductModel.update(product_id, update_data)
+
+        if result.matched_count == 0:
+            return StandardErrorResponse(message="Product not found", status_code=404, code=40004)
+        
+        return StandardSuccessResponse(
+            data={"updated_count": result.modified_count},
+            message="Product updated successfully!",
+        )
+
+    @handle_exceptions
+    def delete_product(self, product_id: str):
+        """
+        Delete a product by its ID.
+        """
+        result = ProductModel.delete(product_id)
+
+        if result.deleted_count == 0:
+            return StandardErrorResponse(message="Product not found", status_code=404, code=40004)
+        
+        return StandardSuccessResponse(
+            data={"deleted_count": result.deleted_count},
+            message="Product deleted successfully!",
         )

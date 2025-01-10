@@ -1,63 +1,60 @@
-from pydantic import BaseModel
-from typing import List
-from datetime import datetime
-from enum import Enum
+from app.config import products_collections
+from bson import ObjectId
 
-class ReviewBase(BaseModel):
-    """Base model for review"""
-    reviewer_id: str
-    rating: int
-    comment: str
+class ProductModel:
+    @staticmethod
+    def get_by_id(product_id: str, projection: dict = None):
+        """Fetch a product by its ID."""
+        try:
+            projection = projection or {}
+            return products_collections.find_one({"_id": ObjectId(product_id)}, projection)
+        except Exception as e:
+            return None
     
-class VariantsBase(BaseModel):
-    """Base model for variants"""
-    sku: str
-    color: str
-    stock: int
-    price: int
-
-class ProductDimensions(BaseModel):
-    """Base model for product dimensions"""
-    height: int
-    width: int
-    depth: int
-
-class ShippingDetailsBase(BaseModel):
-    """Base model for Shipping Details Base"""
-    dimensions =  ProductDimensions
-    weight: float
-    shipping_cost: int
+    @staticmethod
+    def get_by_sku(product_sku: str, projection: dict = None):
+        """Fetch a product by its SKU."""
+        projection = projection or {}
+        return products_collections.find_one(
+            {"sku": {"$regex": f"^{product_sku}$", "$options": "i"}},
+            projection,
+        )
     
-class ProductStatus(Enum):
-    """Enum for product status"""
-    ACTIVE = "active"
-    IN_ACTIVE = "inactive"
-    OUT_OF_STOCK = "out_of_stock"
+    @staticmethod
+    def get_all(filters: dict = {}, projection: dict = {}, limit: int = 5, page: int = 1):
+        """Fetch all products with optional filters."""
+        skip = limit * (page - 1)
+        cursor = products_collections.find(filters, projection).limit(limit).skip(skip)
+        return list(cursor)
     
-class ProductMetaBase(BaseModel):
-    """Base model for product meta"""
-    meta_title: str
-    meta_description: str
-    meta_keywords: List[str]
+    @staticmethod
+    def insert(product_data: dict):
+        """Insert a new product."""
+        return products_collections.insert_one(product_data)
+    
+    @staticmethod
+    def update(product_id: str, update_data: dict):
+        """Update a product by its ID."""
+        return products_collections.update_one(
+            {"_id": ObjectId(product_id)}, {"$set": update_data}
+        )
+    
+    @staticmethod
+    def delete(product_id: str):
+        """Delete a product by its ID."""
+        result = products_collections.delete_one({"_id": ObjectId(product_id)})
+        if result.deleted_count > 0:
+            return {"success": True, "message": "Product deleted successfully"}
+        else:
+            return {"success": False, "message": "Product not found"}
+    
+    @staticmethod
+    def bulk_insert(products: list[dict]):
+        """Insert multiple products."""
+        return products_collections.insert_many(products)
 
-class ProductsBase(BaseModel):
-    """Base model for products"""
-    _id: str
-    sku: str
-    name  : str
-    description: str
-    price: int
-    discount_price: float
-    category_id: str
-    sub_category_id: str
-    stock: int
-    images: List[str]
-    tags: List[str]
-    rating: float
-    reviews: List[ReviewBase]
-    created_at: datetime
-    updated_at: datetime
-    status: ProductStatus
-    variants: List[VariantsBase]
-    shipping_details: ShippingDetailsBase
-    meta: ProductMetaBase
+    @staticmethod
+    def bulk_delete(product_ids: list[str]):
+        """Delete multiple products by their IDs."""
+        object_ids = [ObjectId(pid) for pid in product_ids]
+        return products_collections.delete_many({"_id": {"$in": object_ids}})
