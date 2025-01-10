@@ -4,6 +4,6 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-client = MongoClient(getenv("MONOG_URL"))
+client = MongoClient(getenv('MONGO_URI'))
 db = client["ecommerce-single"]
-user_collection = db["users"]
+products_collections = db["products"]
