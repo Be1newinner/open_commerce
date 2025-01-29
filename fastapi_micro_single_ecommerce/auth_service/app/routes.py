@@ -1,4 +1,4 @@
-from fastapi import APIRouter ,Depends, HTTPException
+from fastapi import APIRouter 
 from app.schemas import UserRegisterSchema, UserLoginSchema
 from app.services import AuthService
 
