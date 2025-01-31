@@ -3,6 +3,7 @@ from datetime import datetime
 from enum import Enum
 from typing import List, Optional
 from bson import ObjectId 
+
 class Role(Enum):
     admin = 'admin'
     user = 'user'
@@ -19,6 +20,4 @@ class UserInDB(User):
     version: Optional[int] = 0
     
 class UserInApp(User):
-        _id: str
-
-
+    _id: str
