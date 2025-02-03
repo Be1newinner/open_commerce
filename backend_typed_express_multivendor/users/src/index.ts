@@ -1,8 +1,9 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application } from "express";
 import connectDB from "./config/db.ts";
 import CONFIG from "./constants/config.constants.ts";
 import passport from "passport";
-import initializePassport from "./config/passport.ts";
+import initializePassport from "./utils/passport.ts";
+import usersRouter from "./routes/users.routes.ts";
 
 const app: Application = express();
 
@@ -13,9 +14,7 @@ app.use(passport.initialize());
 initializePassport(passport);
 
 // our routes
-app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to TypedHome!");
-});
+app.use("/users", usersRouter);
 
 // starting server with mongodb
 const startServer = async () => {
