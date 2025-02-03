@@ -28,10 +28,17 @@ const productSchema = new Schema(
     sku: {
       type: String,
       unique: true,
+      required: true,
     },
-    title: String,
+    title: {
+      type: String,
+      required: true,
+    },
     description: String,
-    price: Number,
+    price: {
+      type: Number,
+      required: true,
+    },
     mrp: Number,
     image: String,
     images: [String],
@@ -42,11 +49,7 @@ const productSchema = new Schema(
       },
     ],
   },
-  {
-    collection: "ProductCollection",
-  }
+  { autoIndex: true }
 );
-
-productSchema.path("sku").index(true);
 
 export const ProductModel = model("Product", productSchema);
