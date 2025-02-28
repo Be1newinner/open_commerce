@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.json", // Inherit the main config
-  "compilerOptions": {
-    "allowImportingTsExtensions": false, // Disable for build
-    "noEmit": false // Enable emitting compiled JavaScript files
-  },
-  "exclude": ["node_modules", "eslint.config.js", "loader.mjs"]
-}
