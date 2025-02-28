@@ -1,0 +1,3 @@
+[submodule "backend_typed_express_monolythics_singlevendor"]
+	path = backend_typed_express_monolythics_singlevendor
+	url = https://github.com/Be1newinner/open_commerce_backend_typed_express_monolythics_singlevendor
