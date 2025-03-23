@@ -1,13 +1,13 @@
-const { ProductModel } from "../../src/models/products.model.js");
+// import { ProductModel } from "../../src/models/products.model.ts";
 
-const request from "supertest");
-const { app } from "../../src/index");
+import request from "supertest";
+import { app } from "../../src/index.ts";
 
-const {
+import {
   connectTestDB,
   closeTestDB,
   clearTestDB,
-} from "../setup/testDBSetup.js");
+} from "../../src/config/testDBSetup.ts";
 
 beforeAll(async () => {
   await connectTestDB();
@@ -30,7 +30,7 @@ const productObject = {
   sku: "TEST123",
   description: "A sample product",
   rating: 4.5,
-}
+};
 const newProductObject = {
   name: "New Product",
   category: "Books",
@@ -39,63 +39,60 @@ const newProductObject = {
   stock: 20,
   sku: "BOOK123",
   description: "A test book",
-}
+};
 
-const updatingProduct = { ...newProductObject, sku: productObject.sku }
+const updatingProduct = { ...newProductObject, sku: productObject.sku };
 
 describe("Product Routes Api Tests", () => {
-  let product;
+  // let product;
 
-  beforeEach(async () => {
-    product = await ProductModel.create(productObject)
-  })
+  // beforeEach(async () => {
+  //   product = await ProductModel.create(productObject);
+  // });
 
   // GET /products/ => GetListOfProducts() = Fetch All Products
   it("Should fetch all products", async () => {
-    const res = await request(app).get("/products/")
+    const res = await request(app).get("/products/");
     expect(res.statusCode).toBe(200);
     expect(res.body.data.length).toBe(1);
-    expect(res.body.data[0]).toHaveProperty("sku", productObject.sku)
-  })
+    expect(res.body.data[0]).toHaveProperty("sku", productObject.sku);
+  });
 
   // GET /products/ => GetSingleProduct() = Fetch Single Product by SKU
   it("Should fetch single product", async () => {
     const res = await request(app).get(`/products/${productObject.sku}`);
     expect(res.statusCode).toBe(200);
-    expect(res.body.data).toHaveProperty("sku", productObject.sku)
-  })
+    expect(res.body.data).toHaveProperty("sku", productObject.sku);
+  });
 
   // Error : GET /products/ => GetSingleProduct() = 404 Product not found
   it("Should fetch single product", async () => {
     const res = await request(app).get(`/products/UNKNOWN-SKU`);
     expect(res.statusCode).toBe(404);
-  })
+  });
 
   // POST /products/ => AddSingleProductController() = Add Single Product
   it("should add single product", async () => {
-    const res = await request(app).post("/products/").send(newProductObject)
+    const res = await request(app).post("/products/").send(newProductObject);
 
     expect(res.statusCode).toBe(201);
-    expect(res.body.data).toHaveProperty("sku", newProductObject.sku)
-  })
+    expect(res.body.data).toHaveProperty("sku", newProductObject.sku);
+  });
 
   // POST /products/bulk => AddListOfProductsController() = Add Multiple Products
-  it("should add multiple products", async () => {
-
-  })
+  it("should add multiple products", async () => {});
 
   // PATCH /products/ => UpdateSingleProductController() = Update Single Product by SKU
   it("should Update Single Product", async () => {
-    const res = await request(app).patch("/products/").send(updatingProduct)
+    const res = await request(app).patch("/products/").send(updatingProduct);
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.data).toHaveProperty("sku", updatingProduct.sku)
-  })
+    expect(res.body.data).toHaveProperty("sku", updatingProduct.sku);
+  });
 
   // Error: PATCH /products/ => UpdateSingleProductController() = product sku not found
   it("should throw 404 error when sku not found", async () => {
-    const res = await request(app).patch("/products/").send(newProductObject)
+    const res = await request(app).patch("/products/").send(newProductObject);
     expect(res.statusCode).toBe(404);
-  })
-
+  });
 });

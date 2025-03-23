@@ -39,7 +39,7 @@ async function startServer() {
   }
 }
 
-if (require.main === module) {
+if (import.meta.url === new URL(import.meta.url, import.meta.url).href) {
   startServer();
 }
 
